@@ -1,0 +1,51 @@
+﻿@model AdministracionActivosSobrantes.Cellars.Dto.DetailCellarOutput
+@{
+    ViewBag.Title = "Detalle Ubicación";
+}
+<div class="">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3>Detalle de @Html.DisplayFor(model => model.Name)</h3>
+    </div>
+    <fieldset>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Nombre: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.Name)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Dirección: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.Address)</p>
+            <p class="col-lg-2">
+                <strong>Teléfono: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.Phone)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Fecha Creación:</strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.CreationTime)</p>
+            <p class="col-lg-2">
+                <strong>Creado Por: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.CreatorUser.UserName)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Fecha Modificación:</strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.LastModificationTime)</p>
+            <p class="col-lg-2">
+                <strong>Modificado Por: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.LastModifierUser.UserName)</p>
+        </div>
+    </fieldset>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+</div>

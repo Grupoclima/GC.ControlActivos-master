@@ -1,0 +1,26 @@
+﻿@using AdministracionActivosSobrantes.Web.Models.Account
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <a>@{ var company =((CustomPrincipal) User).CompanyName;} @company</a>
+            </li>
+            <li>
+                <a>¡Hola @User.Identity.GetUserName()!</a>
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesión</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-top-links navbar-right">
+        @*<li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>*@
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

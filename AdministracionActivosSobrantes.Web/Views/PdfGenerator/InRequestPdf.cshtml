@@ -1,0 +1,254 @@
+﻿@using AdministracionActivosSobrantes.InRequest
+@model AdministracionActivosSobrantes.InRequest.Dto.DetailInRequestOutput
+@{
+    ViewBag.Title = "Detalle de la Solicitud";
+
+}
+<div class="row ">
+    <div class="col-md-6 pull-left">
+        <img style="width: 200px; height: 150px" src='@Server.MapPath("~/Content/images/logo.png")' alt="Logo" />
+    </div>
+
+    <div class="col-md-6 pull-right">
+        <br />
+        <p style="text-align: center"><strong>Clima Ideal S.A.</strong></p>
+        <p style="font-size: small">
+            <b>F-OPE-35 Registro de Entrada de Activos Fijos.</b><br />
+            <b>Responsable: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jefatura de UCA</b><br />
+            <b>Versión: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;03</b><br />
+            <b>Fecha de emisión: @DateTime.Now.ToShortDateString()</b>
+        </p>
+    </div>
+
+</div>
+
+<p>@*<b> Detalle de la Solicitud @Html.DisplayFor(model => model.RequestNumber)</b>*@</p>
+<table class="table table-condensed" style="font-size: small">
+    <tbody>
+        <tr>
+            <td colspan="4" style="text-align: right">
+                @if (Model.Status == InRequestStatus.Active)
+                {
+                    <h4>Estado: <span class="label label-primary">Activa</span></h4>
+                }
+                else if (Model.Status == InRequestStatus.Processed)
+                {
+                    <h4>Estado: <span class="label label-success">Aprobada</span></h4>
+                }
+                else if (Model.Status == InRequestStatus.Closed)
+                {
+                    <h4>Estado: <span class="label label-danger">Cerrada</span></h4>
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>No Solicitud: </strong>
+            </td>
+            <td style="text-align: left">
+                @Html.DisplayFor(model => model.RequestNumber)
+            </td>
+            <td style="text-align: left">
+                <strong>No Documento Solicitud : </strong>
+            </td>
+            <td style="text-align: left">
+                @Html.DisplayFor(model => model.RequestDocumentNumber)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>No Orden de Compra: </strong>
+            </td>
+            <td style="text-align: left">
+                @Html.DisplayFor(model => model.PurchaseOrderNumber)
+            </td>
+
+            <td style="text-align: left">
+                <strong>Ubicación: </strong>
+            </td>
+            <td style="text-align: left">
+                @Html.DisplayFor(model => model.Cellar.Name)
+            </td>
+
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>Tipo de Solicitud: </strong>
+            </td>
+            <td style="text-align: left">
+                @if (Model.TypeInRequest == TypeInRequest.Asset)
+                {
+                    <p class="">Entrada por Activos</p>
+                }
+                else
+                {
+                    <p class="">Entrada por Sobrantes</p>
+                }
+            </td>
+            <td style="text-align: left">
+                <strong>Responsable:</strong>
+            </td>
+            <td style="text-align: left">
+                @Html.DisplayFor(model => model.PersonInCharge)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>Fecha Creación: </strong>
+            </td>
+            <td style="text-align: left">
+                @if (Model.CreationTime != null)
+                {
+                    <p class="">@Model.CreationTime.ToShortDateString()</p>
+                }
+                else
+                {
+                    <p>No asignada</p>
+                }
+            </td>
+            <td style="text-align: left">
+                <strong>Creada por: </strong>
+            </td>
+            <td style="text-align: left">
+                @if (Model.CreatorUserId != null)
+                {
+                    <p class="">@Model.Users.Where(a => a.Id == Model.CreatorUserId).FirstOrDefault().UserName</p>
+                }
+                else
+                {
+                    <p class="">No Asignado</p>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>Notas: </strong>
+            </td>
+            <td style="text-align: left" colspan="3">
+                @Html.DisplayFor(model => model.Notes)
+            </td>
+        </tr>
+        <tr>
+            <td style="text-align: left">
+                <strong>Observaciones: </strong>
+            </td>
+            <td style="text-align: left" colspan="3">
+                @Html.DisplayFor(model => model.Comment)
+            </td>
+        </tr>
+      @*  <tr>
+            @if (Model.ImagePath1 != null && Model.ImagePath1.Length > 5)
+            {
+                <td style="text-align: center" colspan="2">
+                    <img style="width: 200px; height: 150px" src="@Server.MapPath(Model.ImagePath1)" alt="Logo" />
+                    @* <p>Imagen 1</p>
+                </td>
+            }
+            else
+            {
+                <td style="text-align: center" colspan="2"></td>
+            }
+            @if (Model.ImagePath2 != null && Model.ImagePath2.Length > 5)
+            {
+                <td style="text-align: center" colspan="2">
+
+                    <img style="width: 200px; height: 150px" src="@Server.MapPath(Model.ImagePath2)" alt="Logo" />
+
+                    @*<p>Imagen 2</p>
+                </td>
+            }
+            else
+            {
+                <td style="text-align: center" colspan="2"></td>
+            }
+
+        </tr>*@
+    </tbody>
+</table>
+<b>Detalles de Activos de la Solicitud</b>
+<table class="table table-striped table-bordered table-condensed" style="font-size: small">
+    <thead style="background-color: gray; text-align: center">
+        <tr>
+            <th style="text-align: center">
+                Cant.
+            </th>
+            <th style="text-align: center">
+                Nombre Activo
+            </th>
+            <th style="text-align: center">
+                Marca
+            </th>
+            <th style="text-align: center">
+                Modelo
+            </th>
+            <th style="text-align: center">
+                Serie
+            </th>
+            <th style="text-align: center">
+                Placa
+            </th>
+        </tr>
+    </thead>
+    @if (Model.Details != null && Model.Details.Any())
+    {
+        <tbody>
+            @foreach (var item in Model.Details)
+            {
+                if (item.IsDeleted.Value == true)
+                {
+                    continue;
+                }
+                else
+                {
+                <tr>
+                    <td style="font-size: 10px; text-align: center;">
+                        @item.StockAsset
+                    </td>
+                    <td style="font-size: 10px; text-align: center;">
+                        @item.NameAsset
+                    </td>
+                    <td style="font-size: 10px; text-align: center;">
+                        @item.Asset.Brand
+                    </td>
+                    <td style="font-size: 10px; text-align: center;">
+                        @item.Asset.ModelStr
+                    </td>
+                    <td style="font-size: 10px; text-align: center;">
+                        @item.Asset.Series
+                    </td>
+                    <td style="font-size: 10px; text-align: center;">
+                        @item.Asset.Code
+                    </td>
+                </tr>
+                }
+            }
+           @* <tr>
+        <td style="border: 0"></td>
+        <td style="border: 0"></td>
+        <td style="border: 0"></td>
+        <td style="border: 0"></td>
+        <td style="text-align: center">
+            <b>Total Unidades:</b>
+        </td>
+        <td style="text-align: center">
+            <b>@Model.Details.Sum(d => d.StockAsset)</b>
+        </td>
+    </tr>
+        *@
+        </tbody>
+    }
+</table>
+<br />
+<div>
+    <p style="font-size: small">
+        Nombre Ingresa/Devuelve a UCA:_____________________&nbsp;&nbsp;&nbsp;Firma:___________________&nbsp;&nbsp;&nbsp;No. Cédula:___________________
+    </p>
+    <br />
+    <p style="font-size: small">
+        Nombre Funcionario UCA:___________________________&nbsp;&nbsp;&nbsp;Firma:___________________&nbsp;&nbsp;&nbsp;No. Cédula:___________________
+    </p>
+    <br />
+    <br />
+</div>
+

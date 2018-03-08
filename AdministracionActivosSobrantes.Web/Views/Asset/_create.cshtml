@@ -1,0 +1,346 @@
+﻿@using System.Globalization
+@using AdministracionActivosSobrantes.Assets
+@using AdministracionActivosSobrantes.CustomFields
+@model AdministracionActivosSobrantes.Assets.Dto.CreateAssetInput
+<script src="@Url.Content("~/Scripts/views.common.functions.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/asset/asset.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/asset/assetEvents.js")" type="text/javascript"></script>
+@{
+    ViewBag.Title = "Crear Activo";
+}
+<script>
+    $(document).on('change', ':file', function() {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        //var imageReader = document.getElementById('#AssetImageViewer');
+        //imageReader.src = URL.createObjectURL(input.get(0).files);
+        //$("#AssetImageViewer").attr("src",input.val());
+        input.trigger('fileselect', [numFiles, label]);
+    });
+    $(document).ready( function() {
+        $(':file').on('fileselect', function(event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+            if( input.length ) {
+                input.val(log);
+            } else {
+                if( log ) alert(log);
+            }
+        });
+    });
+    function showAssetList() {
+        ViewAssetVariable.btnShowAssetList();
+    }
+    function deleteDetail(index) {
+        ViewAssetVariable.removeAssetToolKits(index);
+    }
+    function SaveAssetDataToolKit() {
+        ViewAssetVariable.btnSaveToolKit();
+        return false;
+    }
+    function SearchAsset() {
+        ViewAssetVariable.searchAssets();
+        return false;
+    }
+    function SaveArticuloData(assetId,name,description,code) {
+        ViewAssetVariable.assetLoadDataToolKit(assetId,name,description,code);
+        return false;
+    }
+</script>
+<div id="createPanelBody">
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Crear Activo</h2>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+    <br>
+    @using (Html.BeginForm("Create", "Asset", FormMethod.Post, new { @class = "form-horizontal ", @id = "CreateAssetForm", enctype = "multipart/form-data" }))
+    {
+        @Html.ValidationSummary(true)
+        if (Model != null)
+        {
+            <div class="wrapper wrapper-content white-bg">
+                <fieldset>
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <script type="text/javascript">
+                                ViewAssetVariable.initializeAssetDto();
+                                @{
+                        var intAssetType = (int) @Model.AssetType;
+                        <text>ViewAssetVariable.setAssetDto('@Model.Id','@Model.Code','@Model.Name','@Model.Barcode', '@Model.Description', '@Model.AdmissionDate',@Model.DepreciationMonthsQty,'@Model.IsAToolInKit',@intAssetType,'@Model.CategoryId');</text>
+                        <text>ViewAssetVariable.setAssetImagePath('@Model.ImagePath');</text>
+                    }
+                            </script>
+                            @Html.HiddenFor(model => model.Id, new { @id = "AssetIdHidden" })
+                            @Html.Hidden("AssetType_Hidden", (int)Model.AssetType)
+                            @Html.HiddenFor(model => model.CategoryId, new { @id = "CategoryIdHidden" })
+                            @Html.HiddenFor(model => model.IsAToolInKit, new { @id = "IsAToolKitHidden" })
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Code, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Code, new { @class = "form-control", @id = "CodeText", @Type = "text", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Code)
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "NameText", @Type = "text", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Price, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Price, new { @class = "form-control input-sm", @id = "PriceText", @Type = "number", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.Price)
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.DepreciationMonthsQty, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.DepreciationMonthsQty, new { @class = "form-control input-sm", @id = "DepreciationMonthsQtyText", @Type = "number", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.DepreciationMonthsQty)
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                @{
+                        IList<SelectListItem> assetsTypes = new List<SelectListItem>();
+                        assetsTypes.Add(new SelectListItem { Value = ((int)AssetType.Asset).ToString(CultureInfo.InvariantCulture), Text = "Activo" });
+                        assetsTypes.Add(new SelectListItem { Value = ((int)AssetType.LeftOver).ToString(CultureInfo.InvariantCulture), Text = "Sobrante" });
+                        <div class="col-md-5">
+                            @Html.LabelFor(model => model.AssetType, new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.AssetType, assetsTypes, new { @id = "AssetsTypes_DD", @class = "form-control" })
+                        </div>
+                                }
+                                <div class="col-md-5">
+                                    @*@Html.LabelFor(model => model.Categories, new { @class = "control-label" })
+                                    @{
+            SelectList categories = new SelectList(Model.Categories.ToArray(), "Id", "Name");
+            <div>@Html.DropDownListFor(m => m.CategoryId, categories, new { @id = "Categories_DD", @class = "form-control" })</div>
+                                    }*@
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.AdmissionDate, new { @class = "control-label" })
+                                    <input value="@Model.AdmissionDate.ToString("yyyy-MM-dd")" id="AdmissionDateText" type="date" class="form-control input-sm" required="required" />
+                                    @Html.ValidationMessageFor(model => model.AdmissionDate)
+                                </div>
+                                <div class="col-md-5">
+                                    <p>&nbsp;</p>
+                                    <input type="checkbox" id="IsToolKitCb" />
+                                   @* @Html.CheckBoxFor(model => model.IsAToolInKit, new { @id = "IsToolKitCb" })*@
+                                    @Html.LabelFor(model => model.IsAToolInKit, new { @class = "control-label" })
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Brand, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.Brand, new { @class = "form-control  input-sm", @id = "BrandText", @Type = "text" })
+                                    @Html.ValidationMessageFor(model => model.Brand)
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.ModelStr, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.ModelStr, new { @class = "form-control  input-sm", @id = "ModelText", @Type = "text" })
+                                    @Html.ValidationMessageFor(model => model.ModelStr)
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Series, new {@class = "control-label"})
+                                    @Html.TextBoxFor(model => model.Series, new {@class = "form-control  input-sm", @id = "SeriesText", @Type = "text"})
+                                    @Html.ValidationMessageFor(model => model.Series)
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.Plate, new {@class = "control-label"})
+                                    @Html.TextBoxFor(model => model.Plate, new {@class = "form-control  input-sm", @id = "PlateText", @Type = "text"})
+                                    @Html.ValidationMessageFor(model => model.Plate)
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.CategoryStr, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.CategoryStr, new { @class = "form-control  input-sm", @id = "CategoryText", @Type = "text" })
+                                    @Html.ValidationMessageFor(model => model.CategoryStr)
+                                </div>
+                                <div class="col-md-5">
+                                    @Html.LabelFor(model => model.ResponsiblePersonStr, new { @class = "control-label" })
+                                    @Html.TextBoxFor(model => model.ResponsiblePersonStr, new { @class = "form-control  input-sm", @id = "ResponsiblePersonText", @Type = "text" })
+                                    @Html.ValidationMessageFor(model => model.ResponsiblePersonStr)
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-lg-10">
+                                    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control ", @id = "DescriptionText", @Type = "text" })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(Model.ImagePath))
+                            {
+                                <br />
+                                <div class="row">
+                                    <img src="@Model.ImagePath" alt="Imagen de Activo" class="img-responsive center-block" style="max-height: 350px; max-height: 350px" id="AssetImageViewer">
+                                </div>
+                            }
+                            <div class="row">
+                                <br />
+                                <div class="col-md-1"></div>
+                                <div class="col-lg-5">
+                                    @if (!string.IsNullOrEmpty(Model.ImagePath))
+                                    {
+                                        <img src="@Model.ImagePath" alt="Imagen de Activo" class="img-thumbnail img-responsive center-block" style="max-height: 350px; max-height: 350px">
+                                    }
+                                    <br />
+                                    <div class="input-group">
+                                        <label class="input-group-btn input-group-sm">
+                                            <span class="btn btn-primary">
+                                                Agregar Imagen<input type="file" style="display: none;" multiple="" id="uploadEditorImage">
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" readonly="">
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+
+                                    <div id="anyPanelBody">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />
+                    <div class="row text-center">
+                        <h3 class="">Campos Adicionales Customizados</h3>
+                        <div class="col-lg-2"></div>
+                        <div id="anyListCustomFieldsEntity" class="col-lg-8">
+                            @{
+            if (Model.CustomFieldsDto != null)
+            {
+                var templist = Model.CustomFieldsDto;
+                Html.RenderPartial("_customFieldsPartial", templist);
+            }
+                            }
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div id="saveEditCustomField_panel" class="col-lg-8">
+                            <input type="hidden" id="isUpdateCustomFieldHidden" class="clearCustomFields" value="0" />
+                            <input type="hidden" id="idCustomFieldHidden" class="clearCustomFields" />
+                            <input type="hidden" id="customFieldValueType" class="clearCustomFields" value="0" />
+                            <input type="hidden" id="selectedCustomFieldIndexHidden" class="clearCustomFields" />
+                            <table class="table table-responsive table-bordered " style="font-size: small">
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <input type="text" id="customFieldNameText" class="form-control clearCustomFields" placeholder="Nombre">
+                                        </td>
+                                        <td>
+                                            @{
+            IList<SelectListItem> customFieldsTypes = new List<SelectListItem>();
+            customFieldsTypes.Add(new SelectListItem { Value = ((int)CustomFieldType.String).ToString(CultureInfo.InvariantCulture), Text = "Texto" });
+            customFieldsTypes.Add(new SelectListItem { Value = ((int)CustomFieldType.Integer).ToString(CultureInfo.InvariantCulture), Text = "Entero" });
+            customFieldsTypes.Add(new SelectListItem { Value = ((int)CustomFieldType.Double).ToString(CultureInfo.InvariantCulture), Text = "Decimal" });
+            customFieldsTypes.Add(new SelectListItem { Value = ((int)CustomFieldType.DateTime).ToString(CultureInfo.InvariantCulture), Text = "Fecha" });
+            @Html.DropDownList("CustomFieldTypes", customFieldsTypes, new { @id = "CustomFieldTypes_DD", @class = "form-control" })
+                                            }
+                                        </td>
+                                        <td>
+                                            <input type="text" id="customFieldsValueText" class="form-control customFieldAddPanel clearCustomFields" placeholder="Valor" />
+                                        </td>
+                                        <td style="text-align: center">
+                                            <a id="btnSaveCustomField" class="btn btn-xs btn-info customFieldAddPanel" title="Agregar Campo Customizado">
+                                                <span class="glyphicon glyphicon-share" aria-hidden="true"></span>&nbsp;Agregar Campo
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div id="customFieldsAlerts" style="text-align: center">
+                            </div>
+                        </div>
+                        <div class="col-lg-2"></div>
+                    </div>
+                    <div class="wrapper-content text-center">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            @if (Model.ErrorCode == 1)
+                            {
+                                <div class="alert alert-success alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>@Model.ErrorDescription</strong>
+                                </div>
+                            }
+                            else if (Model.ErrorCode == -1)
+                            {
+                                <br />
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <strong>@Model.ErrorDescription</strong>
+                                </div>
+                            }
+                        </div>
+                        <div class="col-lg-4"></div>
+                    </div>
+                </fieldset>
+                <div class="wrapper-content text-center">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div id="anyModalForm" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,74 @@
+﻿@using System.Web.Mvc.Html
+@model AdministracionActivosSobrantes.ReportMovements.Dto.ReportMovementsInputDto
+<div class="wrapper wrapper-content white-bg">
+    @using (Html.BeginForm(Model.Action, Model.Control, FormMethod.Post, new { @id = "searchForm" }))
+    {
+        @Html.HiddenFor(model => model.ProjectId, new { @id = "ProjectIdHidden" })
+        <div class="row">
+            <div class="col-lg-1">
+                <label>
+                    Búsqueda
+                </label>
+            </div>
+            <div class="col-lg-9">
+                <div class="input-group">
+                    @Html.TextBoxFor(model => model.Query, new { @placeholder = "Introducir Búsqueda...", @type = "text", @class = "form-control" })
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-success">Buscar</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            @if (Model.Cellars != null && @Model.Cellars.Any())
+            {
+                <div class="col-lg-1">
+                    <label>
+                        &nbsp;&nbsp;Ubicación:
+                    </label>
+                </div>
+                <div class="col-lg-4">
+                    @{
+                SelectList cellars = new SelectList(Model.Cellars.ToArray(), "Id", "Name");
+                <div>@Html.DropDownListFor(m => m.CellarId, cellars, "Todas", new { @id = "CellarId_DD", @class = "form-control" })</div>
+                    }
+                </div>
+            }
+
+            <div class="col-lg-1">
+                <label>
+                    &nbsp;&nbsp;Proyecto:
+                </label>
+            </div>
+            <div class="col-lg-4">
+                <div class="input-group">
+                    @*<input type="text" id="projectName" class="form-control clearDetalle" placeholder="Proyecto"  readonly="readonly">*@
+                    @Html.TextBoxFor(a => a.ProjectName, new { @id="projectName",@class = "form-control clearDetalle", @placeholder = "Proyecto", @readonly="readonly" })
+                    <span class="input-group-btn">
+                        <a class="btn btn-default" id="btnShowProjectList" title="Buscar Proyecto"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                    </span>
+                </div>
+            </div>
+
+
+        </div>
+        <br />
+        <div class="row">
+            @if (Model.Users != null && @Model.Users.Any())
+            {
+                <div class="col-lg-1">
+                    <label>
+                        &nbsp;&nbsp;Usuario:
+                    </label>
+                </div>
+                <div class="col-lg-4">
+                    @{
+                SelectList users = new SelectList(Model.Users.ToArray(), "Id", "UserName");
+                <div>@Html.DropDownListFor(m => m.UserId, users, "Todos", new { @id = "UserId_DD", @class = "form-control" })</div>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>

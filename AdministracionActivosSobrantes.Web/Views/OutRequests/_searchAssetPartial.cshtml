@@ -1,0 +1,164 @@
+﻿@using System.Web.Script.Serialization
+@using MvcPaging
+@model IPagedList<AdministracionActivosSobrantes.Cellars.Dto.OutRequestEntityDto>
+
+<div id="anyListAssetUpdate">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Lista de Activos</h4>
+    </div>
+    <br />
+    <div class="col-lg-12">
+        <div class="input-group">
+            <input type="text" class="form-control" id="searchBoxAsset" placeholder="Busqueda de Activos...">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="SearchAsset()">Buscar</button>
+            </span>
+        </div><!-- /input-group -->
+    </div><!-- /.col-lg-6 -->
+    <br />
+    <hr />
+    <div class="dataTables_wrapper">
+        @if (Model.TotalItemCount > 0)
+        {
+            string currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
+
+            string[] detailList = (string[])(ViewBag.JsonDetallesList);
+            
+            string query = (string)ViewBag.Query;
+            Guid cellarId = (Guid)ViewBag.CellarId;
+            Guid outRequestId = (Guid)ViewBag.OutRequestId;
+            int? typeOutRequestValue = (int?)ViewBag.TypeOutRequestValue;
+            <div class="pull-right">
+                @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount, new AjaxOptions { UpdateTargetId = "anyListAssetUpdate", HttpMethod = "POST" }).Options(o => o.Action("ShowArticuloList").
+               DisplayTemplate("Bootstrap3Pagination").AddRouteValue("jsonDetallesList", (detailList)[0])).Options(o => o.AddRouteValue("q", query)).Options(o => o.AddRouteValue("cellarId", cellarId)).Options(o => o.AddRouteValue("outRequestId", outRequestId)).Options(o => o.AddRouteValue("typeOutRequestValue", typeOutRequestValue))
+            </div>
+            <input type="hidden" id="typeOutRequestValueStockHidden" value="@typeOutRequestValue">
+            <input type="hidden" id="pageNumberValueStockHidden" value="@Model.PageNumber"/>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>
+                            Imagen Activo
+                        </th>
+                        <th>
+                            # Activo
+                        </th>
+                        <th>
+                            Nombre
+                        </th>
+                        <th>
+                            Ubicación
+                        </th>
+                        <th>
+                            Propietario
+                        </th>
+                        @*<th>
+                            Categoría
+                        </th>
+                        <th>
+                            Precio Promedio
+                        </th>*@
+                        <th>
+                            En Ubicación
+                        </th>
+                        <th>
+                            En Solicitud
+                        </th>
+                        <th>
+                            Disponibilidad
+                        </th>
+                        <th>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                             <td  style="text-align: left">
+                                     <img src="@item.Stock.Asset.ImagePath" alt="Imagen de Activo" class="img-thumbnail img-responsive center-block" style="max-height: 150px; max-height: 150px">
+                                </td>
+                            <td style="text-align: left">
+                                @item.Stock.Asset.Code
+                            </td>
+                            <td style="text-align: left">
+                                @item.Stock.Asset.Name
+                            </td>
+                            <td style="text-align: left">
+                                @item.Stock.Cellar.Name
+                            </td>
+                            <td style="text-align: left">
+                                @item.Stock.Asset.ResponsiblePersonStr
+                            </td>
+                            @*<td style="text-align: center">
+                                @item.Stock.Asset.Price
+                            </td>*@
+                            <td style="text-align: center">
+                                @{
+                                     double stockItem = @item.Stock.GetStockItemsQtyBlocked() + @item.UsedInRequest;
+                                }
+                                @if (item.IsEdit)
+                                {
+
+                                    if (item.Stock.GetStockItemsQty() < 1)
+                                    {
+                                        <b style="color: red">@stockItem</b>
+                                    }
+                                    else
+                                    {
+                                        <b style="color: green">@stockItem</b>
+                                    }
+                                }
+                                else
+                                {
+                                    if (item.Stock.GetStockItemsQty() < 1)
+                                    {
+                                        <b style="color: red">@item.Stock.GetStockItemsQtyBlocked()</b>
+                                    }
+                                    else
+                                    {
+                                        <b style="color: green">@item.Stock.GetStockItemsQtyBlocked()</b>
+                                    }
+                                }
+
+
+                            </td>
+                            <td style="text-align: center">
+                                @item.UsedInRequest
+                            </td>
+                            <td style="text-align: center">
+                                @if (item.Availability() < 1)
+                                {
+                                    <b style="color: red">@item.Availability()</b>
+                                }
+                                else
+                                {
+                                    <b style="color: green">@item.Availability()</b>
+                                }
+                            </td>
+                            <td style="text-align: center">
+                                @if (item.Stock.GetStockItemsQty() > 0 && item.Availability() > 0)
+                                {
+                                    
+                                    <div class="btn btn-default btn-xs" data-dismiss="modal" onclick="SaveArticuloData('@item.Stock.Asset.Id', '@item.Stock.Asset.Name', '@item.Stock.Asset.Description', '@item.Stock.Asset.CategoryId', '@item.Stock.Asset.Price', '@item.Availability()')">Usar</div>
+                                   // <a class="btn btn-xs btn-info" onclick="detailFunc($(this))" data-identity='@item.' title="Detalle del Activo"><span class="glyphicon glyphicon-list"></span></a>
+                                }
+                            </td>
+                            <td style="display: none">
+                               <input value="@item.Stock.Asset.Barcode" type="hidden" id="barcode"/>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <br />
+            <div class="alert alert-info" style="text-align: center">
+                No existen Activos en la Ubicación Seleccionada.
+            </div>
+        }
+    </div>
+</div>

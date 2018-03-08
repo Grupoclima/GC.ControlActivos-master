@@ -1,0 +1,16 @@
+﻿@model AdministracionActivosSobrantes.ReportStocks.Dto.ReportStockInputDto
+@{ViewBag.Title = "Reporte de Existencias";}
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Reporte de Existencias</h2>
+    </div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchStockReportSearchPartial", Model);}
+<div id="anyListEntity">
+    @{Html.RenderPartial("_stocksReportListPartial", Model);}
+</div>
+
+

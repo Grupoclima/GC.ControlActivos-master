@@ -1,0 +1,76 @@
+﻿@using AdministracionActivosSobrantes.Web.Helpers
+@using AdministracionActivosSobrantes.Users
+@using AdministracionActivosSobrantes.Web.Models.Account
+@{var user = ((CustomPrincipal)User).Rol;}
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header text-center">
+                <div class="dropdown profile-element">
+
+                    <h1 style="color: white">Grupo Clima</h1>
+                    <h3 style="text-align: center">Control de Activos y Sobrantes</h3>
+
+                    @*<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold">Daniel Víquez</strong>
+                                </span> <span class="text-muted text-xs block">AuxiliarUca <b class="caret"></b></span>
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu   m-t-xs">
+                            <li><a href="#">Logout</a></li>
+                        </ul>*@
+                </div>
+                <div class="logo-element">
+                    GC+
+                </div>
+            </li>
+            @*<li class="@Html.IsSelected(action: "Index")">
+                    <a href="@Url.Action("Index", "Home")"><i class="glyphicon glyphicon-align-left"></i> <span class="nav-label">Main page</span> </a>
+                </li>*@
+            @if (user == UserRoles.SuperAdministrador || user == UserRoles.SupervisorUca)
+            {
+                <li>
+                    <a href="#"><i class="glyphicon glyphicon-edit"></i> <span class="nav-label">Mantenimientos</span><span class=""></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="@Url.Action("Index", "Asset")"><i class="glyphicon glyphicon-wrench"></i>Activos</a></li>
+                        <li><a href="@Url.Action("Index", "Cellar")"><i class="glyphicon glyphicon-home"></i>Ubicaciones</a></li>
+                        <li><a href="@Url.Action("Index", "Project")"><i class="glyphicon glyphicon-calendar"></i>Proyectos</a></li>
+                        @*<li><a href="@Url.Action("Index", "Category")"><i class="glyphicon glyphicon-th-list"></i>Categorías</a></li>*@
+                        <li><a href="@Url.Action("Index", "Contractor")"><i class="glyphicon glyphicon-user"></i>Transportistas</a></li>
+                    </ul>
+                </li>
+            }
+            @if (user == UserRoles.AuxiliarUca || user == UserRoles.Coordinador || user == UserRoles.Solicitante)
+            {
+                <li>
+                    <a href="#"><i class="glyphicon glyphicon-edit"></i> <span class="nav-label">Mantenimientos</span><span class=""></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="@Url.Action("Index", "Asset")"><i class="glyphicon glyphicon-wrench"></i>Activos</a></li>
+                    </ul>
+                </li>
+            }
+
+            <li>
+                <a href="#"><i class="glyphicon glyphicon-folder-open"></i> <span class="nav-label">Movimientos</span><span class=""></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <li><a href="@Url.Action("Index", "InRequests")"><i class="glyphicon glyphicon-resize-small"></i>Entradas</a></li>
+                    <li><a href="@Url.Action("Index", "OutRequests")"><i class="glyphicon glyphicon-resize-full"></i>Salidas</a></li>
+                    <li><a href="@Url.Action("Index", "Adjustments")"><i class="glyphicon glyphicon-cog"></i>Ajustes</a></li>
+                </ul>
+            </li>
+            @if (user == UserRoles.SuperAdministrador || user == UserRoles.SupervisorUca || user == UserRoles.Coordinador || user == UserRoles.AuxiliarUca)
+            {
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">Reportes</span><span class=""></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="@Url.Action("Index", "ReportStocks")"><i class="glyphicon glyphicon-print"></i>Reporte Existencias</a></li>
+                        <li><a href="@Url.Action("Index", "ReportMovements")"><i class="glyphicon glyphicon-print"></i>Reporte Trazabilidad</a></li>
+                        @*<li><a href="@Url.Action("Index", "OutRequests")"><i class="glyphicon glyphicon-print"></i>Reporte Cambios de Precio</a></li>*@
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>

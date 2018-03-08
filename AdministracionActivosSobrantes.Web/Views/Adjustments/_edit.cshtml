@@ -1,0 +1,46 @@
+﻿@using Abp.Web.Mvc.Extensions
+@using AdministracionActivosSobrantes.Adjustments
+@model AdministracionActivosSobrantes.Adjustments.Dto.CreateAdjustmentInput
+@{
+    ViewBag.Title = "Editar Solicitud";
+    ViewBag.IsEdit = false;
+}
+<script src="@Url.Content("~/Scripts/adjustment.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/adjustmentReady.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm("Edit", "Adjustments", FormMethod.Post, new { @class = "form-horizontal", @id = "EditSalidaInventarioForm" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-10">
+            <h2>Editar Ajuste</h2>
+        </div>
+
+        <div class="col-lg-2">
+            @if (Model.Status == AdjustmentStatus.Active)
+            {
+                <h2>Estado: <span class="label label-primary">Activa</span></h2>
+            }
+            else if (Model.Status == AdjustmentStatus.Processed)
+            {
+                <h2>Estado: <span class="label label-success">Aprobada</span></h2>
+            }
+
+        </div>
+    </div>
+    <div id="anyModalForm" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body ">
+                    <p class="body" id="anyModalBody">
+                    </p>
+                </div>
+                <div class="msgErrorAnyModal">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    @Html.Partial("_adjustmentFormPartial", Model)
+}
+
+

@@ -1,0 +1,178 @@
+﻿@using Abp.Web.Mvc.Extensions
+@model AdministracionActivosSobrantes.OutRequest.Dto.SearchOutRequestInput
+@{
+    ViewBag.Title = "Salidas";
+}
+<script src="@Url.Content("~/Scripts/closeOutRequest.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/outRequestReady.js")" type="text/javascript"></script>
+
+<script>
+    function saveProjectData(projectId, name) {
+        //ViewOutRequestVariable.assetLoadData(articuloId, articuloNombre);
+        $('#ProjectIdHidden').val(projectId);
+        $('#projectName').val(name);
+        $('#anyModalForm').modal('hide');
+        return false;
+    }
+
+    function saveLeftOver(index, assetId) {
+        var temp = "#returnAssetQty" + assetId;
+        var returnAssetQty = $(temp).val();
+        ViewOutRequestCloseVariable.changeFunctionCloseRequest(index, returnAssetQty);
+    }
+</script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Salidas</h2>
+    </div>
+    <br />
+    <div><a class="btn btn-default" href="@Url.Action("Create", "OutRequests")"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Salida</a></div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchOutRequest", Model);}
+<br />
+<div id="anyPanelForm">
+    <div id="msgErrorAnyPanel">
+    </div>
+    <div id="anyPanelBody">
+    </div>
+</div>
+<div id="anyListEntity">
+    @{Html.RenderPartial("_outRequestListPartial", Model);}
+</div>
+
+<div class="modal fade" id="DeleteConfirmationMain_modal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación de borrado de la Solicitud.</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="ItemToDeleteMain_hidden" />
+                <h3 style="text-align: center;">¿Está seguro que desea borrar la Solicitud?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <a type="button" class="btn btn-primary" id="btnModalOkDeleteMainConfirmation">Continuar</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="PaseInventarioConfirmationMain_modal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación de cambio en la Solicitud.</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="ItemToInventarioMain_hidden"/>
+                <h3>¿Está seguro que desea continuar?</h3>
+                <p>
+                    Si la Solicitud es aplicada sera enviada a aprobación y luego de aprobada puede proceder al encargado de Ubicación.
+                 </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" id="btnModalOkPaseInventarioConfirmation">Continuar</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="ApprovedConfirmationMain_modal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación de cambio en la Solicitud.</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="ItemToApprovedMain_hidden" />
+                <h3>¿Está seguro que desea continuar?</h3>
+                <p>
+                    -Si la solicitud es aplicada pasará a ser entregada por el AuxiliarUca.
+                </p>
+                <p>
+                    -Si la solicitud es rechazada se devolverán los Activos a su estado anterior.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-warning" id="btnModalOkDisprobalConfirmation">Rechazar Solicitud</a>
+                <a class="btn btn-primary" id="btnModalOkApprovedConfirmation">Aprobar Solicitud</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="calcelar_solicitud_modal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación de cambio en la Solicitud.</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="Itemcancelar_hidden" />
+                <h3>¿Está seguro que desea continuar?</h3>
+                <p>
+                    -Si la solicitud es cancelada, el solicitante debera crear otra solicitud.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+                <a class="btn btn-primary" id="btnModalcencelaApprovedConfirmation">Cancelar la Solicitud</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="DeliverConfirmationMain_modal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación de cambio en la Solicitud.</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="ItemToDeliverMain_hidden" />
+                <h3>¿Está seguro que desea continuar?</h3>
+                <p>
+                    Si la solicitud es aplicada solo podrá ser reversada con movimientos manuales de ajuste.
+                
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" id="btnModalOkDeliverConfirmation">Continuar</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="anyModalCloseRequest" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <p class="body" id="anyModalBodyCloseRequest">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div id="anyModalForm" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

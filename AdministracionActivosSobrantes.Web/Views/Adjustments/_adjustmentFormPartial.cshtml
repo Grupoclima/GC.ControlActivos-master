@@ -1,0 +1,202 @@
+﻿@using System.Globalization
+@using AdministracionActivosSobrantes.Adjustments.Dto
+@model  CreateAdjustmentInput
+<script type="text/javascript">
+
+    function SearchAsset() {
+        ViewAdjustmentVariable.searchAssets();
+        return false;
+    }
+    function SaveArticuloData(articuloId,articuloNombre,articuloDescripcion,articuloCategoria,precio) {
+        ViewAdjustmentVariable.assetLoadData(articuloId, articuloNombre, articuloDescripcion,  articuloCategoria, precio);
+        return false;
+    }
+
+</script>
+@if (Model != null)
+{
+    if (Model.ErrorCode == 1)
+    {
+        <br />
+        <div class="alert alert-success" style="text-align: center">
+            <button type="button" class="close" data-dismiss="alert">×</button>@Model.ErrorDescription
+        </div>
+    }
+    else
+    {
+        <br />
+        <fieldset class="wrapper wrapper-content white-bg">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <script type="text/javascript">
+                            ViewAdjustmentVariable.initializeAdjustment();
+                            @{<text>ViewAdjustmentVariable.setAdjustment('@Model.Id',@Model.RequestNumber,'@Model.RequestDocumentNumber', '@Model.Notes', @Model.TypeAdjustmentValue,'@Model.CellarId', '@Model.PersonInCharge');</text>}
+                        </script>
+                        @Html.HiddenFor(model => model.Id, new { @id = "adjustmentIdHidden" })
+                        @Html.HiddenFor(model => model.IsEdit, new { @id = "isEditHidden" })
+                        @Html.HiddenFor(model => model.RequestNumber, new { @id = "noRequestHidden" })
+                        @Html.HiddenFor(model => model.CellarId, new { @id = "cellarIdHidden" })
+                        @Html.HiddenFor(model => model.TypeAdjustmentValue, new { @id = "typeAdjustmentHidden" })
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.RequestNumber, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.RequestNumber, new { @class = "form-control", @disabled = "disabled", @type = "text" })
+                                @Html.ValidationMessageFor(model => model.RequestNumber)
+                            </div>
+                            <div class="col-md-5">
+                                @*@Html.LabelFor(model => model.RequestDocumentNumber, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.RequestDocumentNumber, new { @class = "form-control", @id = "requestDocumentNumberTxt", @type = "text", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.RequestDocumentNumber)*@
+                                @Html.LabelFor(model => model.Cellars, new { @class = "control-label" })
+                                @{
+        SelectList cellars = new SelectList(Model.Cellars.ToArray(), "Id", "Name");
+        if (Model.IsEdit)
+        {
+                            <div>@Html.DropDownListFor(m => m.CellarId, cellars, new { @id = "Cellars_DD", @class = "form-control", @readonly = true })</div>
+        }
+        else
+        {
+                            <div>@Html.DropDownListFor(m => m.CellarId, cellars, new { @id = "Cellars_DD", @class = "form-control" })</div>
+        }
+
+                                }
+                                @Html.ValidationMessageFor(model => model.CellarId)
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                        <div class="row " style="display: none">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
+                              
+                            </div>
+
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.TypeAdjustment, new { @class = "control-label" })
+                                @{
+        IList<SelectListItem> typeAdjustment = new List<SelectListItem>();
+        typeAdjustment.Add(new SelectListItem { Value = ((int)AdministracionActivosSobrantes.Adjustments.TypeAdjustment.Asset).ToString(CultureInfo.InvariantCulture), Text = "Ajuste por Activos" });
+        typeAdjustment.Add(new SelectListItem { Value = ((int)AdministracionActivosSobrantes.Adjustments.TypeAdjustment.LeftOver).ToString(CultureInfo.InvariantCulture), Text = "Ajuste por Sobrante" });
+        if (Model.IsEdit)
+        {
+            @Html.DropDownListFor(m => m.TypeAdjustment, typeAdjustment, "Seleccione un Tipo de Ajuste", new { @id = "TypeAdjustment_DD", @class = "form-control", @readonly = true })
+        }
+        else
+        {
+            @Html.DropDownListFor(m => m.TypeAdjustment, typeAdjustment, "Seleccione un Tipo de Ajuste", new { @id = "TypeAdjustment_DD", @class = "form-control" })
+        }
+
+        @Html.ValidationMessageFor(model => model.TypeAdjustment)
+                                }
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.PersonInCharge, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.PersonInCharge, new { @class = "form-control", @id = "personInChargeText", @type = "text", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.PersonInCharge)
+                            </div>
+
+
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-10">
+                                @Html.LabelFor(model => model.Notes, new { @class = "control-label" })
+                                @Html.TextAreaFor(model => model.Notes, new { @class = "form-control", @id = "notestTxt", @type = "text" })
+                                @Html.ValidationMessageFor(model => model.Notes)
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr />
+                    </div>
+
+                    <div id="saveEditArticuloDetalle_panel" class="col-lg-12">
+                        <input type="hidden" id="isUpdateHidden" class="clearDetalle"/>
+                        <input type="hidden" id="idAssetHidden" class="clearDetalle"/>
+                        <input type="hidden" id="selectedIndexArticuloHidden" class="clearDetalle"/>
+                        <input type="hidden" id="assetAvailabilityText" class="clearDetalle"/>
+                        <!--CAMPO DE COSTO OCULTO-->
+                        <input type="hidden" id="priceText" class="form-control detalleAddPanel clearDetalle" readonly="readonly"
+                               placeholder="Costo" min="1" required disabled/>
+                        <div class="col-md-12">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="assetNameText" class="form-control clearDetalle" placeholder="Activo" required readonly="readonly">
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default" id="btnShowArticulosList" title="Buscar Activo"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" id="stockText" class="form-control detalleAddPanel clearDetalle"
+                                       placeholder="Cantidad" min="0" required disabled step="any"/>
+                            </div>
+                            <div class="col-md-3">
+                                <a id="guardarArticuloBtn" class="btn btn-xs btn-info detalleAddPanel" title="Guardar detalle de Activo a la Solicitud">
+                                    <span class="glyphicon glyphicon-share" aria-hidden="true"></span>&nbsp;Agregar al detalle
+                                </a>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr />
+                    </div>
+                    <div id="detalleInventarioAlerts" class="col-md-12" style="text-align: center">
+                    </div>
+                    <div id="anyListDetailsEntity" class="col-lg-12">
+                        @{ Html.RenderPartial("_tableDetails", (IEnumerable<DetailAssetAdjustmentDto>)Model.DetailsAdjustment); }
+                    </div>
+
+                    @if (Model.ErrorCode == -1)
+                    {
+                        <br />
+                        <div class="alert alert-error" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            @Model.ErrorDescription
+                        </div>
+                    }
+                    <hr />
+                    <div class="col-lg-offset-5">
+                        <input type="submit" class="btn btn-primary" id="SaveRequestData" value="Guardar Solicitud" />
+                        <a class="btn btn-default" href="@Url.Action("Index","Adjustments")">Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @* <h4 class="modal-title">¡Alerta!</h4>*@
+                    </div>
+                    <div class="modal-body">
+                        <h2 style="text-align: center;">¡Solicitud Guardada Correctamente!</h2>
+                        <br />
+                        <h4 style="text-align: center;">Proceda a aceptarla para que se apliquen los movimientos.</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" class="btn btn-primary" href="@Url.Action("Index", "Adjustments")">Continuar</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    }
+}

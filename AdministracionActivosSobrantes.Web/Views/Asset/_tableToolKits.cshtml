@@ -1,0 +1,84 @@
+﻿@model IEnumerable<AdministracionActivosSobrantes.Assets.Dto.DetailAssetToolKitsDto>
+<script>
+
+    //function deleteDetail(index) {
+    //    ViewOutRequestVariable.removeDetailOutRequest(index);
+    //}
+</script>
+<div class="col-lg-12">
+
+    <h4 class="text-center">
+        Detalles del Set
+    </h4>
+    <table id="TableListDetalesEntity" class="table table-responsive"
+           style="font-size: small">
+        <thead>
+            <tr>
+                <th>
+                    Nombre Activo
+                </th>
+                <th>
+                    Cantidad
+                </th>
+
+                <th style="width: 15%">
+                </th>
+            </tr>
+        </thead>
+
+        <script type="text/javascript">
+            ViewAssetVariable.clearToolKitsList();
+        </script>
+        <tbody>
+            @if (Model.Count() <= 0)
+            {
+                <tr>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="text-align: right"><span> </span></td>
+                    <td style="text-align: right"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="text-align: right"><span> </span></td>
+                    <td style="text-align: right"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                </tr>
+
+            }
+            else if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <script type="text/javascript">
+                        @{<text>ViewAssetVariable.addToolKitsToAsset('@item.Id','@item.AssetId', '@item.Name', @item.Quatity, '@item.Code', @item.Saved, @item.Update, @item.Delete, @item.ErrorCode, '@item.ErrorDescription', @item.Index);</text>}
+                    </script>
+
+                    if (item.Delete == 1)
+                    {
+                        continue;
+                    }
+                    var rowId = "tableRowId" + item.DetailId;
+                    <tr id='@rowId'>
+                        <td style="text-align: center">
+                            @item.Name
+                        </td>
+                        <td style="text-align: center">
+                            @item.Quatity
+                        </td>
+                      
+                        <td style="text-align: center">
+                            <a class="btn btn-xs btn-danger" onclick="deleteDetail(@item.Index)" title="Borrar detalle de la Solicitud">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+            }
+        </tbody>
+
+    </table>
+</div>

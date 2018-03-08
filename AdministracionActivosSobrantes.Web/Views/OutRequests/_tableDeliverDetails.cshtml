@@ -1,0 +1,154 @@
+﻿@using AdministracionActivosSobrantes.Details
+@model IEnumerable<AdministracionActivosSobrantes.OutRequest.Dto.DetailAssetOutRequestDto>
+<script>
+
+    function deleteDetail(index) {
+        ViewDeliverOutRequestVariable.removeDetailOutRequest(index);
+    }
+</script>
+<div class="col-lg-12">
+
+    <h4 class="text-center">
+        Detalles de Activos de la Solicitud
+    </h4>
+    <table id="TableListDetalesEntity" class="table table-responsive"
+           style="font-size: small">
+        <thead>
+        <tr>
+            <th style="text-align: center">
+                Activo
+            </th>
+            @*<th style="text-align: center">
+                Propietario
+            </th>*@
+            <th style="text-align: center">
+                Nombre Activo
+            </th>
+            <th style="text-align: center">
+                Cantidad
+            </th>
+            <th style="text-align: center">
+                Estado
+            </th>
+            <th style="text-align: center">
+                Impreso
+            </th>
+           @* <th style="text-align: center">
+        Despachado
+    </th>*@
+            <th style="width: 15%">
+            </th>
+        </tr>
+        </thead>
+
+        <script type="text/javascript">
+            ViewDeliverOutRequestVariable.clearDetailOutRequestList();
+        </script>
+        <tbody>
+
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <script type="text/javascript">
+                        @{<text>ViewDeliverOutRequestVariable.addDetailOutRequest(@item.DetailId,'@item.AssetId','@item.AssetCode', '@item.NameAsset', @item.StockAsset, '@item.Price','@item.Status', @item.Saved, @item.Update, @item.Delete, @item.ErrorCode, '@item.ErrorDescription', @item.Index);</text>}
+                    </script>
+
+                    if (item.Delete == 1)
+                    {
+                        continue;
+                    }
+                    var rowId = "tableRowId" + item.DetailId;
+                    <tr id='@rowId'>
+                        @if (item.Delete == 0)
+                        {
+
+                        <td style="text-align: center">
+                            @item.AssetCode
+                    </td>
+                    @*       <td style="text-align: center">
+                            @item.Asset.ResponsiblePersonStr
+                        </td>*@
+                        <td style="text-align: center">
+                            @item.NameAsset
+                        </td>
+                        <td style="text-align: center">
+                            @item.StockAsset
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.Status == Status.OnRequest)
+                            {
+                                <span class="label label-default">En Solicitud</span>
+                            }
+                            else if (item.Status == Status.Approved)
+                            {
+                                <span class="label label-info">Aprobada</span>
+                            }
+                            else if (item.Status == Status.Delivered)
+                            {
+                                <span class="label label-danger">Entregado</span>
+                            }
+                            else if (item.Status == Status.Closed)
+                            {
+                                <span class="label label-success">Recibido</span>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.Impress == Impress.Impreso)
+                            {
+                                <span class="label label-default">impreso</span>
+                            }
+                            else if (item.Impress == Impress.Noimpreso)
+                            {
+                                <span class="label label-info">NOimpreso</span>
+                            }
+                        </td>
+                   @*     <td style="text-align: center">
+        @item.StockAsset
+    </td>*@
+
+                        <td style="text-align: center">
+                            @if (item.Status == Status.Approved)
+                            {
+                                <a class="btn btn-xs btn-info " onclick="deliverDetail('@item.AssetId','1')" title="Entregar Detalle">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                </a>
+                            }
+                        </td>
+                        }
+                    </tr>
+
+                        }
+                        
+                <tr>
+                    <td style="border: 0"></td>
+                    <td style="border: 0"></td>
+                    <td style="border:0"></td>
+                    <td style="display: none"></td>
+                    <td style="text-align: right">
+                        <b>Total Unidades:</b>
+                    </td>
+                    <td style="text-align: center">
+                        <b>@Model.Where(d => d.Delete == 0).Sum(d => d.StockAsset)</b>
+                    </td>
+                </tr>
+            
+                @*<tr style="display: none">
+                    @{
+                var totalGeneral = Model.Where(d => d.Delete == 0).Sum(d => d.GetAssetAmount());
+                    }
+                    <td style="border: 0"></td>
+                    <td style="border: 0"></td>
+                    <td style="border: 0"></td>
+                    <td style="text-align: right">
+                        <b>Total General:</b>
+                    </td>
+                    <td style="text-align: right">
+                        <b>@totalGeneral</b>
+                    </td>
+                </tr>*@
+            }
+        </tbody>
+
+    </table>
+</div>

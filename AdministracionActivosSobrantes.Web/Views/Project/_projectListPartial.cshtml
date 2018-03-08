@@ -1,0 +1,109 @@
+﻿@using AdministracionActivosSobrantes.Projects
+@using MvcPaging
+@model AdministracionActivosSobrantes.Projects.Dto.SearchProjectsInput
+
+@Html.HiddenFor(model => model.Query, new { @id = "SrchQuery_hidden" })
+@Html.HiddenFor(model => model.Page, new { @id = "SrchPage_hidden" })
+
+@if (Model != null && Model.Entities != null && Model.Entities.Any())
+{
+    <div class="wrapper wrapper-content white-bg">
+        @if (Model.ErrorCode == -1)
+        {
+            <div class="alert alert-danger" style="text-align: center">@Model.ErrorDescription</div>
+        }
+        else
+        {
+            <div class="pull-right">
+                @Html.Pager(Model.Entities.PageSize, Model.Entities.PageNumber, Model.Entities.TotalItemCount, new AjaxOptions { UpdateTargetId = "anyListEntity" }).Options(o => o.Action("AjaxPage").DisplayTemplate("Bootstrap3Pagination").AddRouteValue("query", Model.Query))
+            </div>
+            <table id="TableListEntity" class="table table-responsive" style="font-size: small">
+                <thead class="text-center">
+                    <tr>
+                        <th style="text-align: center">
+                            Codigo
+                        </th>
+                        <th style="text-align: center">
+                            Nombre
+                        </th>
+                        <th style="text-align: center">
+                            Estado
+                        </th>
+                        <th style="text-align: center">
+                            Fecha Inicial
+                        </th>
+                        <th style="text-align: center">
+                            Fecha Final
+                        </th>
+                        <th style="text-align: center">
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Entities)
+                    {
+                        //var rowId = "tableRowId" + item.ProyectoId;
+
+                        <tr>
+                            <td style="text-align: center">
+                                @item.Code
+                            </td>
+                            <td style="text-align: center">
+                                @item.Name
+                            </td>
+                            <td style="text-align: center">
+                                @if (item.EstadoProyecto == EstadoProyecto.Active)
+                                {
+                                    <span class="label label-primary">Activo</span>
+                                }
+                                else if (item.EstadoProyecto == EstadoProyecto.Fishished)
+                                {
+                                    <span class="label label-danger">Finalizado</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-warning">Suspendido</span>
+                                }
+                            </td>
+                            <td style="text-align: center">
+                                @if (item.StartDate != null)
+                                {
+                                    @item.StartDate.Value.ToShortDateString()
+                                }
+                                else
+                                {
+                                    <p>N/D</p>
+                                }
+
+                            </td>
+                            <td style="text-align: center">
+                                @if (item.FinalDate != null)
+                                {
+                                    @item.FinalDate.Value.ToShortDateString()
+                                }
+                                else
+                                {
+                                    <p>N/D</p>
+                                }
+                                
+                            </td>
+                            <td style="text-align: center">
+                                <a class="btn btn-xs btn-default" onclick="editFunc($(this))" data-identity='@item.Id' title="Editar el Proyecto"><span class="glyphicon glyphicon-edit"></span></a>
+                                <a class="btn btn-xs btn-info" onclick="detailFunc($(this))" data-identity='@item.Id' title="Detalle de el Proyecto"><span class="glyphicon glyphicon-list"></span></a>
+                                <a class="btn btn-xs btn-danger" onclick="deleteFunc($(this))" data-identity='@item.Id' title="Borrar el Proyecto"><span class="glyphicon glyphicon-remove"></span></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ningun proyecto registrada!</strong>
+    </div>
+
+}

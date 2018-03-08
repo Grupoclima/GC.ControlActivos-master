@@ -1,0 +1,70 @@
+﻿@model AdministracionActivosSobrantes.Cellars.Dto.CreateCellarInput
+@{
+    ViewBag.Title = "Crear Ubicación";
+}
+@using (Html.BeginForm("Create", "Cellar", FormMethod.Post, new { @class = "form-horizontal ", @id = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Crear Ubicación</h4>
+    </div>
+    if (Model != null)
+    {<div class="modal-body">
+        <fieldset>
+            <div class="well col-lg-10 col-lg-offset-1">
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "NameText", @Type = "text", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.Address, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @id = "AddressText", @Type = "text" })
+                    @Html.ValidationMessageFor(model => model.Address)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.CostCenter, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.CostCenter, new { @class = "form-control", @id = "AddressText", @Type = "text" })
+                    @Html.ValidationMessageFor(model => model.CostCenter)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.Phone, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @id = "PhoneText", @Type = "text" })
+                    @Html.ValidationMessageFor(model => model.Phone)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.WareHouseUsers, new { @class = "control-label" })
+                    @{
+        SelectList wareHouseUsers = new SelectList(Model.WareHouseUsers.ToArray(), "Id", "UserName");
+        <div>@Html.DropDownListFor(m => m.WareHouseManagerId, wareHouseUsers, new { @id = "wareHouseUsers_DD", @class = "form-control", @required = "required" })</div>
+                    }
+                </div>
+
+                @if (Model.ErrorCode == 1)
+                {
+                    <hr />
+                    <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+                else if (Model.ErrorCode == -1)
+                {
+                    <hr />
+                    <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+
+    }
+}

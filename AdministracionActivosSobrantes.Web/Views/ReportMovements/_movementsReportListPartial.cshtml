@@ -1,0 +1,113 @@
+﻿@using AdministracionActivosSobrantes.Movements
+@model AdministracionActivosSobrantes.ReportMovements.Dto.ReportMovementsInputDto
+<script>
+    $(document).ready(function () {
+        $('#TableListEntity').DataTable({
+            dom: 'Bfrtip',
+            paging: false,
+            searching: false,
+            scrollX: true,
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']//, { extend: 'pdfHtml5', message: 'Reporte creado por ' + $('#userNameHidden').val() + ' en ' + $('#dateHidden').val() }
+        });
+    });
+</script>
+@if (Model != null && Model.Movements != null && Model.Movements.Any())
+{
+    @Html.HiddenFor(model => model.CurrentUserName, new { @id = "userNameHidden" })
+    @Html.HiddenFor(model => model.CurrentDateTime, new { @id = "dateHidden" })
+    <div class="wrapper wrapper-content white-bg text-center">
+        <table id="TableListEntity" class="table table-responsive  dt-responsive" style="font-size: small">
+            <thead class="text-center">
+                <tr>
+                    <th style="text-align: center">
+                        Fecha
+                    </th>
+                    <th style="text-align: center">
+                        No. Movimiento
+                    </th>
+                    <th style="text-align: center">
+                        Tipo
+                    </th>
+                    <th style="text-align: center">
+                        Categoría
+                    </th>
+                    <th style="text-align: center">
+                        Ubicación
+                    </th>
+                    <th style="text-align: center">
+                        Activo
+                    </th>
+                    <th style="text-align: center">
+                        Cantidad Anterior
+                    </th>
+                    <th style="text-align: center">
+                        Cantidad Movimiento
+                    </th>
+                    <th style="text-align: center">
+                        Cantidad Nueva
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Movements)
+                {
+                    <tr>
+                        <td style="text-align: center">
+                            @item.ApplicationDateTime.ToLongDateString()
+                        </td>
+                        <td style="text-align: center">
+                            @item.MovementNumber
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.TypeMovement == TypeMovement.Input)
+                            {
+                                <b>Entrada</b>
+                            }
+                            else if (item.TypeMovement == TypeMovement.Output)
+                            {
+                                <b>Salida</b>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.MovementCategory == MovementCategory.Adjustment)
+                            {
+                                <b>Ajuste</b>
+                            }
+                            else if (item.MovementCategory == MovementCategory.InRequest)
+                            {
+                                <b>Solicitud Entrada</b>
+                            }
+                            else if (item.MovementCategory == MovementCategory.OutRequest)
+                            {
+                                <b>Solicitud Salida</b>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @item.Cellar.Name
+                        </td>
+                        <td style="text-align: center">
+                            @item.Asset.Name
+                        </td>
+                        <td style="text-align: center">
+                            @item.PreviosCellarQty
+                        </td>
+                        <td style="text-align: center">
+                            @item.StockMovement
+                        </td>
+                        <td style="text-align: center">
+                            @item.GetNewCellarQty()
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ninguna Existencia</strong>
+    </div>
+
+}

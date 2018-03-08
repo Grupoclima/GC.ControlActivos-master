@@ -1,0 +1,92 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DFA48E27-7D53-4955-A722-3D91A7119BE7}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministracionActivosSobrantes.Core", "AdministracionActivosSobrantes.Core\AdministracionActivosSobrantes.Core.csproj", "{17298EA0-AF73-4F30-B6F1-2066100D7D74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministracionActivosSobrantes.Application", "AdministracionActivosSobrantes.Application\AdministracionActivosSobrantes.Application.csproj", "{EDF5D964-4C0F-4F19-B674-58A38A5E5401}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministracionActivosSobrantes.EntityFramework", "AdministracionActivosSobrantes.EntityFramework\AdministracionActivosSobrantes.EntityFramework.csproj", "{3979F157-DEB0-4878-AB1D-4CEF6B5A1300}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministracionActivosSobrantes.WebApi", "AdministracionActivosSobrantes.WebApi\AdministracionActivosSobrantes.WebApi.csproj", "{5EB52D3D-09FD-463A-B02A-8D9856BD3724}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdministracionActivosSobrantes.Web", "AdministracionActivosSobrantes.Web\AdministracionActivosSobrantes.Web.csproj", "{404A6D3B-AA85-4E4C-AEEE-1E5026D5F135}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{E26623A9-20D0-40A9-8719-CD1A73A2A0DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{EB689AD5-43AA-4A1C-B664-5DCFD87E3041}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{909415F8-C774-4CD2-A0E5-DEB1E89E664E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WEB", "WEB", "{43F02B22-B641-412A-806E-4474A9AA7002}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfGenerator", "PdfGenerator\PdfGenerator.csproj", "{B89185AD-AAF2-4F4A-AC6E-B504E19ACBC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GCMvcMailer", "GCMvcMailer\GCMvcMailer.csproj", "{834B3FB8-51B8-4EFC-8E03-44887321BDBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GcErpConnection", "GcErpConnection\GcErpConnection.csproj", "{448C2579-088B-4DF2-8140-15E1AFFF74C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17298EA0-AF73-4F30-B6F1-2066100D7D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17298EA0-AF73-4F30-B6F1-2066100D7D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17298EA0-AF73-4F30-B6F1-2066100D7D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17298EA0-AF73-4F30-B6F1-2066100D7D74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDF5D964-4C0F-4F19-B674-58A38A5E5401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDF5D964-4C0F-4F19-B674-58A38A5E5401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDF5D964-4C0F-4F19-B674-58A38A5E5401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDF5D964-4C0F-4F19-B674-58A38A5E5401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3979F157-DEB0-4878-AB1D-4CEF6B5A1300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3979F157-DEB0-4878-AB1D-4CEF6B5A1300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3979F157-DEB0-4878-AB1D-4CEF6B5A1300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3979F157-DEB0-4878-AB1D-4CEF6B5A1300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EB52D3D-09FD-463A-B02A-8D9856BD3724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EB52D3D-09FD-463A-B02A-8D9856BD3724}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EB52D3D-09FD-463A-B02A-8D9856BD3724}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EB52D3D-09FD-463A-B02A-8D9856BD3724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{404A6D3B-AA85-4E4C-AEEE-1E5026D5F135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404A6D3B-AA85-4E4C-AEEE-1E5026D5F135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404A6D3B-AA85-4E4C-AEEE-1E5026D5F135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404A6D3B-AA85-4E4C-AEEE-1E5026D5F135}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89185AD-AAF2-4F4A-AC6E-B504E19ACBC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89185AD-AAF2-4F4A-AC6E-B504E19ACBC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89185AD-AAF2-4F4A-AC6E-B504E19ACBC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89185AD-AAF2-4F4A-AC6E-B504E19ACBC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{834B3FB8-51B8-4EFC-8E03-44887321BDBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{834B3FB8-51B8-4EFC-8E03-44887321BDBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{834B3FB8-51B8-4EFC-8E03-44887321BDBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{834B3FB8-51B8-4EFC-8E03-44887321BDBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{448C2579-088B-4DF2-8140-15E1AFFF74C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{448C2579-088B-4DF2-8140-15E1AFFF74C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{448C2579-088B-4DF2-8140-15E1AFFF74C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{448C2579-088B-4DF2-8140-15E1AFFF74C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{17298EA0-AF73-4F30-B6F1-2066100D7D74} = {EB689AD5-43AA-4A1C-B664-5DCFD87E3041}
+		{EDF5D964-4C0F-4F19-B674-58A38A5E5401} = {E26623A9-20D0-40A9-8719-CD1A73A2A0DE}
+		{3979F157-DEB0-4878-AB1D-4CEF6B5A1300} = {909415F8-C774-4CD2-A0E5-DEB1E89E664E}
+		{5EB52D3D-09FD-463A-B02A-8D9856BD3724} = {43F02B22-B641-412A-806E-4474A9AA7002}
+		{404A6D3B-AA85-4E4C-AEEE-1E5026D5F135} = {43F02B22-B641-412A-806E-4474A9AA7002}
+		{B89185AD-AAF2-4F4A-AC6E-B504E19ACBC7} = {909415F8-C774-4CD2-A0E5-DEB1E89E664E}
+		{834B3FB8-51B8-4EFC-8E03-44887321BDBA} = {909415F8-C774-4CD2-A0E5-DEB1E89E664E}
+		{448C2579-088B-4DF2-8140-15E1AFFF74C1} = {909415F8-C774-4CD2-A0E5-DEB1E89E664E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8;packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45
+	EndGlobalSection
+EndGlobal

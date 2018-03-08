@@ -1,0 +1,2 @@
+# GC.ControlActivos
+GC.ControlActivos

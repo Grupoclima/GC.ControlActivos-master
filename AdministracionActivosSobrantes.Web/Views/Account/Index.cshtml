@@ -1,0 +1,51 @@
+﻿@model AdministracionActivosSobrantes.Web.Models.Account.AccountViewModel
+@{
+    ViewBag.Title = "Inicio de Sesion";
+}
+
+<div class="middle-box text-center loginscreen animated fadeInDown">
+    <div >
+        <div>
+            <img src="~/Content/images/logo.png" alt="Grupo Clima">
+        </div>
+        <h3>Bienvenido al Control de Activos de Grupo Clima</h3>
+        <p>Inicio de Sesion.</p>
+        <form action="@Url.Action("Login", "Account")" method="POST" class="form-horizontal" data-toggle="validator" role="form">
+
+            <div class=" row">
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.UserName, new {@Type = "text", @Class = "form-control", @Placeholder = "Usuario", @Required = true})
+                    @Html.ValidationMessageFor(m => m.UserName)
+                    @*<input type="email" class="form-control" placeholder="Usuario" required="">*@
+                </div>
+            </div>
+            <div class="row ">
+                <div class="form-group has-feedback">
+                    @Html.TextBoxFor(m => m.Password, new {@Type = "password", @Class = "form-control", @Placeholder = "Contraseña", @Required = true})
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+            <div class="row ">
+                <div class="form-group has-feedback">
+
+                    @*@Html.LabelFor(model => model.Companies, new { @class = "control-label" })*@
+                    @{
+                        SelectList companies = new SelectList(Model.Companies.ToArray());
+                        <div>@Html.DropDownListFor(m => m.CompanyName, companies, new { @id = "Companies_DD", @class = "form-control" })</div>
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <label class="pull-left"> <input type="checkbox" class="i-checks pull-left" value="@Model.RememberMe"> Recuerdame </label>
+                <button type="submit" class="btn btn-sm btn-primary pull-right m-t-n-xs">Iniciar Sesion</button>
+            </div>
+            
+        </form>
+        <div style="color: red">
+            @if (@Model.ErrorCode == -1)
+            {
+                <h4>@Model.ErrorDescription</h4>
+            }
+        </div>
+    </div>
+</div>

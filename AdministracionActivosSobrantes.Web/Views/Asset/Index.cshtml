@@ -1,0 +1,57 @@
+﻿@using Abp.Web.Mvc.Extensions
+@model AdministracionActivosSobrantes.Assets.Dto.SearchAssetsInput
+<script src="@Url.Content("~/Scripts/views.common.functions.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/asset/asset.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/asset/assetEvents.js")" type="text/javascript"></script>
+@{ViewBag.Title = "Mantenimiento de Activos";}
+<script>
+    $(document).ready(function () {
+        $('#SearchAssetTextInput').keyup($.debounce(500, ViewAssetVariable.searchDebounce));
+    });
+</script>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Mantenimiento de Activos</h2>
+    </div>
+    <br />
+    @*<a class="btn btn-default" href="@Url.Action("Create", "Asset")"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Activo</a>*@
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchAssetPartial", Model);}
+<br />
+<div id="anyListEntity">
+    @{Html.RenderPartial("_assetListPartial", Model);}
+</div>
+<div id="anyModalForm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="DeleteConfirmation_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="ItemToDelete_hidden" />
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmación de borrado del Activo.</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea borrar el Activo?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="btnModalOkDeleteConfirmation">Continuar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

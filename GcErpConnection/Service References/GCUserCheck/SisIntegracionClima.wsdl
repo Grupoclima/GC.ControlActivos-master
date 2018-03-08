@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="ConsultaEstadoCuentaCliente">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clienteERP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clienteBMP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaEstadoCuentaClienteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConsultaEstadoCuentaClienteResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="valoresERP">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaEstadoCuentaAcesor">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clienteERP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clienteBMP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaEstadoCuentaAcesorResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConsultaEstadoCuentaAcesorResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="valoresERP">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaInformacionArticulos">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codArticulo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="departamento" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaInformacionArticulosResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConsultaInformacionArticulosResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="valoresERP">
+              <s:complexType>
+                <s:sequence>
+                  <s:element ref="s:schema" />
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaInformacionCotizacion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cotizacionBMP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clienteERP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ConsultaInformacionCotizacionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ConsultaInformacionCotizacionResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="pedido" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="estadoPedido" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="factura" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="estadoFactura" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ProcesarPedido">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="cotizacionBMP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="codDepartamento" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clienteERP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="clienteBMP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="fechaAprobacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="usaurioBMP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="direccionCobro" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lineasPedido" type="tns:ArrayOfPedidoLinea" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfPedidoLinea">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="pedidoLinea" type="tns:pedidoLinea" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="pedidoLinea">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="numoroLinea" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="tipoProductoBMP" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="codigoArticuloERP" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="cantidad" type="s:decimal" />
+          <s:element minOccurs="1" maxOccurs="1" name="precio" type="s:decimal" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="ProcesarPedidoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ProcesarPedidoResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="pedido" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="estadoPedido" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidarUsuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="compania" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="usuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="contrasena" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidarUsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidarUsuarioResult" type="s:boolean" />
+            <s:element minOccurs="1" maxOccurs="1" name="autenticado" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="mensajeError" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ConsultaEstadoCuentaClienteSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaEstadoCuentaCliente" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaEstadoCuentaClienteSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaEstadoCuentaClienteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaEstadoCuentaAcesorSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaEstadoCuentaAcesor" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaEstadoCuentaAcesorSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaEstadoCuentaAcesorResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaInformacionArticulosSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaInformacionArticulos" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaInformacionArticulosSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaInformacionArticulosResponse" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaInformacionCotizacionSoapIn">
+    <wsdl:part name="parameters" element="tns:ConsultaInformacionCotizacion" />
+  </wsdl:message>
+  <wsdl:message name="ConsultaInformacionCotizacionSoapOut">
+    <wsdl:part name="parameters" element="tns:ConsultaInformacionCotizacionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ProcesarPedidoSoapIn">
+    <wsdl:part name="parameters" element="tns:ProcesarPedido" />
+  </wsdl:message>
+  <wsdl:message name="ProcesarPedidoSoapOut">
+    <wsdl:part name="parameters" element="tns:ProcesarPedidoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ValidarUsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidarUsuario" />
+  </wsdl:message>
+  <wsdl:message name="ValidarUsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidarUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SisIntegracionClimaSoap">
+    <wsdl:operation name="ConsultaEstadoCuentaCliente">
+      <wsdl:input message="tns:ConsultaEstadoCuentaClienteSoapIn" />
+      <wsdl:output message="tns:ConsultaEstadoCuentaClienteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaEstadoCuentaAcesor">
+      <wsdl:input message="tns:ConsultaEstadoCuentaAcesorSoapIn" />
+      <wsdl:output message="tns:ConsultaEstadoCuentaAcesorSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacionArticulos">
+      <wsdl:input message="tns:ConsultaInformacionArticulosSoapIn" />
+      <wsdl:output message="tns:ConsultaInformacionArticulosSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacionCotizacion">
+      <wsdl:input message="tns:ConsultaInformacionCotizacionSoapIn" />
+      <wsdl:output message="tns:ConsultaInformacionCotizacionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarPedido">
+      <wsdl:input message="tns:ProcesarPedidoSoapIn" />
+      <wsdl:output message="tns:ProcesarPedidoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidarUsuario">
+      <wsdl:input message="tns:ValidarUsuarioSoapIn" />
+      <wsdl:output message="tns:ValidarUsuarioSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SisIntegracionClimaSoap" type="tns:SisIntegracionClimaSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConsultaEstadoCuentaCliente">
+      <soap:operation soapAction="http://tempuri.org/ConsultaEstadoCuentaCliente" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaEstadoCuentaAcesor">
+      <soap:operation soapAction="http://tempuri.org/ConsultaEstadoCuentaAcesor" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacionArticulos">
+      <soap:operation soapAction="http://tempuri.org/ConsultaInformacionArticulos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacionCotizacion">
+      <soap:operation soapAction="http://tempuri.org/ConsultaInformacionCotizacion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarPedido">
+      <soap:operation soapAction="http://tempuri.org/ProcesarPedido" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidarUsuario">
+      <soap:operation soapAction="http://tempuri.org/ValidarUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SisIntegracionClimaSoap12" type="tns:SisIntegracionClimaSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ConsultaEstadoCuentaCliente">
+      <soap12:operation soapAction="http://tempuri.org/ConsultaEstadoCuentaCliente" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaEstadoCuentaAcesor">
+      <soap12:operation soapAction="http://tempuri.org/ConsultaEstadoCuentaAcesor" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacionArticulos">
+      <soap12:operation soapAction="http://tempuri.org/ConsultaInformacionArticulos" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaInformacionCotizacion">
+      <soap12:operation soapAction="http://tempuri.org/ConsultaInformacionCotizacion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ProcesarPedido">
+      <soap12:operation soapAction="http://tempuri.org/ProcesarPedido" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidarUsuario">
+      <soap12:operation soapAction="http://tempuri.org/ValidarUsuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SisIntegracionClima">
+    <wsdl:port name="SisIntegracionClimaSoap" binding="tns:SisIntegracionClimaSoap">
+      <soap:address location="http://intranet.grupoclima.com:8071/SisIntegracionClima.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SisIntegracionClimaSoap12" binding="tns:SisIntegracionClimaSoap12">
+      <soap12:address location="http://intranet.grupoclima.com:8071/SisIntegracionClima.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

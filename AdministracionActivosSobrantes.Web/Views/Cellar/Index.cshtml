@@ -1,0 +1,82 @@
+﻿@using Abp.Web.Mvc.Extensions
+@model AdministracionActivosSobrantes.Cellars.Dto.SearchCellarsInput
+@{
+    ViewBag.Title = "Mantenimiento de Ubicaiones";
+}
+@section Scripts
+{
+    @Html.IncludeScript("~/Scripts/cellar.js")
+}
+<script>
+    $(document).ready(function () {
+        $('#MainSearchTextInput').keyup($.debounce(500, ViewCellarVariable.searchDebounce));
+    });
+</script>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Mantenimiento de Ubicaciones</h2>
+    </div>
+    <br/>
+    @*<a class="btn btn-default btnCreateForm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Ubicación</a>*@
+</div>
+<br/>
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchCellar", Model);}
+<br/>
+<div id="anyListEntity">
+    @{Html.RenderPartial("_cellarListPartial", Model);}
+</div>
+<div id="anyModalForm" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal" id="DeleteConfirmation_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="ItemToDelete_hidden" />
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmación de borrado de la Ubicación.</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro que desea borrar la Ubicación?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="btnModalOkDeleteConfirmation">Continuar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal" id="ActiveCellar_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="ItemToActive_hidden" />
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirmación de cambio de estado de la Ubicación.</h4>
+            </div>
+            <div class="modal-body">
+                <h4>¿Está seguro que desea cambiar de estado la Ubicación?</h4>
+                <p><b>- Si esta activada cambiara de estado a desactivada</b></p>
+                <p><b>- Si esta desactivada cambiara de estado a activada</b></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="btnModalOkActiveConfirmation">Continuar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

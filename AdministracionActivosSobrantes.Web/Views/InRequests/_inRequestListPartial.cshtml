@@ -1,0 +1,145 @@
+﻿@using AdministracionActivosSobrantes.InRequest
+@using AdministracionActivosSobrantes.Users
+@using MvcPaging
+@model AdministracionActivosSobrantes.InRequest.Dto.SearchInRequestInput
+
+@Html.HiddenFor(model => model.Query, new { @id = "SrchQuery_hidden" })
+@Html.HiddenFor(model => model.Page, new { @id = "SrchPage_hidden" })
+@Html.HiddenFor(model => model.CellarId, new { @id = "SrchBodegaId_hidden" })
+@Html.HiddenFor(model => model.ProjectId, new { @id = "SrchProyectoId_hidden" })
+
+@if (Model != null && Model.Entities != null && Model.Entities.Any())
+{
+    <div class="wrapper wrapper-content white-bg">
+        <div class="wrapper-content">
+            <div style="text-align: right">
+                @Html.Pager(Model.Entities.PageSize, Model.Entities.PageNumber, Model.Entities.TotalItemCount, new AjaxOptions { UpdateTargetId = "anyListEntity" }).Options(o => o.Action("AjaxPage").DisplayTemplate("Bootstrap3Pagination").AddRouteValue("query", Model.Query))
+            </div>
+            <div class="table-responsive">
+                <table id="TableListEntity" class="table" style="font-size: small">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">
+                                Solicitud No.
+                            </th>
+                            <th style="text-align: center">
+                                Ubicación
+                            </th>
+                            <th style="text-align: center">
+                                Tipo
+                            </th>
+                            <th style="text-align: center">
+                                Estado
+                            </th>
+                            <th style="text-align: center">
+                                Fecha Creación
+                            </th>
+                            <th style="text-align: center">
+                                Fecha Procesada
+                            </th>
+                            <th style="text-align: center">
+                                Creada Por
+                            </th>
+
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Entities.OrderByDescending(a => a.RequestNumber))
+                        {
+                            var rowId = "tableRowId" + item.Id;
+                            <tr id='@rowId'>
+                                <td style="text-align: center">
+                                    @item.RequestNumber
+                                </td>
+                                <td style="text-align: center">
+                                    @item.Cellar.Name
+                                </td>
+                                <td style="text-align: center">
+                                    @if (item.TypeInRequest == TypeInRequest.LeftOver)
+                                    {
+                                        <span class="label label-info">Entrada por Sobrantes</span>
+                                    }
+                                    else if (item.TypeInRequest == TypeInRequest.Asset)
+                                    {
+                                        <span class="label label-success">Entrada por Activos</span>
+                                    }
+
+                                </td>
+                                <td style="text-align: center">
+                                    @if (item.Status == InRequestStatus.Active)
+                                    {
+                                        <span class="label label-info">Activa</span>
+                                    }
+                                    else if (item.Status == InRequestStatus.Processed)
+                                    {
+                                        <span class="label label-primary">Procesada</span>
+                                    }
+                                    else if (item.Status == InRequestStatus.Closed)
+                                    {
+                                        <span class="label label-danger">Cerrada</span>
+                                    }
+
+                                </td>
+                                <td style="text-align: center">
+                                    @item.CreationTime.ToShortDateString()
+                                </td>
+                                <td style="text-align: center">
+                                    @if (item.ProcessedDate != null)
+                                    {
+                                        @item.ProcessedDate.Value.ToShortDateString()
+                                    }
+                                    else
+                                    {
+                                        <p>No Asignada</p>
+                                    }
+                                </td>
+
+
+                                <td style="text-align: center">
+                                    @Model.Users.Where(a => a.Id == item.CreatorUserId).FirstOrDefault().UserName
+                                </td>
+
+                                <td style="text-align: center">
+                                    <a class="btn btn-xs btn-info" href='@Url.Action("Details", "InRequests", new {id = item.Id})' title="Detalle de la Solicitud">
+                                        <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+                                    </a>
+                                    <a class="btn btn-xs btn-info" title="Descargar Pdf de la Solicitud" href='@Url.Action("InRequestDetails", "PdfGenerator", new {id = item.Id})'>
+                                        <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+                                    </a>
+                                    @if (item.Status == InRequestStatus.Active)
+                                    {
+                                        if ( Model.User.Rol == UserRoles.AuxiliarUca || Model.User.Rol == UserRoles.SuperAdministrador || Model.User.Rol == UserRoles.SupervisorUca)
+                                        {
+                                            <a class="btn btn-xs btn-primary" onclick="paseAprovalFunc($(this))" data-idrequest='@item.Id' title="Aplicar la Solicitud">
+                                                <span class="glyphicon glyphicon-share" aria-hidden="true"></span>
+                                            </a>
+                                        }
+                                            <a class="btn btn-xs btn-default" href='@Url.Action("Edit", "InRequests", new {id = item.Id})' title="Editar la Solicitud">
+                                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                            </a>
+                                            <a class="btn btn-xs btn-danger" onclick="deleteFunc($(this))" data-idrequest='@item.Id' title="Borrar la Solicitud">
+                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            </a>
+                                       
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="wrapper wrapper-content">
+        <div class="alert alert-warning alert-dismissible" role="alert" style="text-align: center;">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>¡No se han encontrado ninguna entrada registrada!</strong>
+        </div>
+    </div>
+}

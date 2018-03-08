@@ -1,0 +1,132 @@
+﻿@model IEnumerable<AdministracionActivosSobrantes.Adjustments.Dto.DetailAssetAdjustmentDto>
+@{ var currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"]; }
+<script>
+    function editDetail(index) {
+        ViewAdjustmentVariable.btnEditDetail(index);
+    }
+
+    function deleteDetail(index) {
+        ViewAdjustmentVariable.removeDetailAdjustment(index);
+    }
+</script>
+<div class="col-lg-12">
+
+    <h4 class="text-center">
+        Detalles de Activos de la Solicitud
+    </h4>
+    <table id="TableListDetalesEntity" class="table table-responsive"
+           style="font-size: small">
+        <thead>
+            <tr>
+                <th style="text-align: center">
+                    Nombre Activo
+                </th>
+                <th style="text-align: center">
+                    Cantidad
+                </th>
+                <th style="display: none">
+                    Costo
+                </th>
+                <th style="display: none">
+                    Total
+                </th>
+                <th style="width: 15%">
+                </th>
+            </tr>
+        </thead>
+
+        <script type="text/javascript">
+            ViewAdjustmentVariable.clearDetailAdjustmentList();
+        </script>
+        <tbody>
+            @if (Model.Count() <= 0)
+            {
+                <tr>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="display: none"><span> </span></td>
+                    <td style="display: none"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="display: none"><span> </span></td>
+                    <td style="display: none"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                    <td style="display: none"><span> </span></td>
+                    <td style="display: none"><span> </span></td>
+                    <td style="text-align: center"><span> </span></td>
+                </tr>
+            }
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <script type="text/javascript">
+                        @{<text>ViewAdjustmentVariable.addDetailAdjustment(@item.DetailId,'@item.AssetId', '@item.NameAsset', @item.StockAsset, @item.Price,  @item.Saved, @item.Update, @item.Delete, @item.ErrorCode, '@item.ErrorDescription', @item.Index);</text>}
+                    </script>
+
+                    if (item.Delete == 1)
+                    {
+                        continue;
+                    }
+                    var rowId = "tableRowId" + item.DetailId;
+                    <tr id='@rowId'>
+                        <td style="text-align: center">
+                            @item.NameAsset
+                        </td>
+                        <td style="text-align: center">
+                            @item.StockAsset
+                        </td>
+                        <td style="display: none">
+                            @item.Price
+                        </td>
+
+                        <td style="display: none">
+                            @item.GetAssetAmount()
+                        </td>
+                        <td style="text-align: center">
+                            <a class="btn btn-xs btn-default " onclick="editDetail(@item.Index)" title="Editar detalle la Solicitud">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>
+                            <a class="btn btn-xs btn-danger" onclick="deleteDetail(@item.Index)" title="Borrar detalle de la Solicitud">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td style="border: 0"></td>
+                    <td style="display: none"></td>
+                    <td style="display: none"></td>
+                    <td style="text-align: right">
+                        <b>Total Unidades:</b>
+                    </td>
+                    <td style="text-align: center">
+                        <b>@Model.Where(d => d.Delete == 0).Sum(d => d.StockAsset)</b>
+                    </td>
+                </tr>
+                <tr style="display: none">
+                    @{
+                var totalGeneral = Model.Where(d => d.Delete == 0).Sum(d => d.GetAssetAmount());
+                    }
+                    <td style="border: 0"></td>
+                    <td style="border: 0"></td>
+                    <td style="border: 0"></td>
+                    <td style="text-align: right">
+                        <b>Total General:</b>
+                    </td>
+                    <td style="text-align: right">
+                        <b>@totalGeneral</b>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>

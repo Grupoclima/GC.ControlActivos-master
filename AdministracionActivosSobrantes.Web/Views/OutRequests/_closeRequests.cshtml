@@ -1,0 +1,66 @@
+﻿@using AdministracionActivosSobrantes.OutRequest.Dto
+@model CloseOutRequestInput
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Cancelar Lineas de la Solicutd</h4>
+</div>
+<div class="col-lg-12">
+    @using (Html.BeginForm("CloseRequestApply", "OutRequests", FormMethod.Post, new { @class = "form-horizontal", @id = "CloseRequestForm" }))
+    {
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id, new { @id = "outRequestIdHidden" })
+        @Html.HiddenFor(model => model.CellarId, new { @id = "cellarIdHidden" })
+        <script type="text/javascript">
+            ViewOutRequestCloseVariable.initializeOutRequest();
+            @{
+                <text>ViewOutRequestCloseVariable.setOutRequest('@Model.Id', '@Model.CellarId');</text>
+            }
+        </script>
+        <div class="wrapper-content">
+            <div id="closeRequestAlerts" style="text-align: center"> </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-5">
+                <label>No. Solicitud:</label>
+                @Html.TextBoxFor(model => model.RequestNumber, new { @class = "form-control", @disabled = "disabled", @type = "text" })
+                @Html.ValidationMessageFor(model => model.RequestNumber)
+            </div>
+            <div class="col-md-5">
+                <label>Ubicación:</label>
+                @Html.TextBoxFor(model => model.CellarName, new { @class = "form-control", @disabled = "disabled", @id = "cellarName", @type = "text" })
+                @Html.ValidationMessageFor(model => model.CellarName)
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-5">
+                <label>Encargado de Ubicación:</label>
+                @Html.TextBoxFor(model => model.WarehouseManName, new { @class = "form-control", @disabled = "disabled", @type = "text" })
+                @Html.ValidationMessageFor(model => model.WarehouseManName)
+            </div>
+            <div class="col-md-5">
+                <label>Fecha de Entrega:</label>
+                @Html.TextBoxFor(model => model.AssetReturnDate, new { @class = "form-control", @disabled = "disabled", @id = "cellarName", @type = "text" })
+                @Html.ValidationMessageFor(model => model.AssetReturnDate)
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+
+        <br />
+        <div id="anyListDetailsEntity" class="col-lg-12">
+            @{ Html.RenderPartial("_closeRequestsTable", Model.DetailsRequest); }
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            <input type="button" class="btn btn-warning" id="btnCloseRequest" onclick="closeRequestApply($(this))" value="Continuar">
+        </div>
+    }
+</div>

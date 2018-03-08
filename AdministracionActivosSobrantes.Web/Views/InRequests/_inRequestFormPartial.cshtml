@@ -1,0 +1,310 @@
+﻿@using System.Globalization
+@using AdministracionActivosSobrantes.InRequest
+@using AdministracionActivosSobrantes.InRequest.Dto
+@model CreateInRequestInput
+<script type="text/javascript">
+    function SearchAsset() {
+        ViewInRequestVariable.searchAssets();
+        return false;
+    }
+   /* function SearchAsset() {
+        ViewOutRequestVariable.searchAssets();
+        return false;
+    }*/
+    function SaveArticuloData(articuloId,articuloNombre,articuloDescripcion,articuloCategoria,precio) {
+        ViewInRequestVariable.assetLoadData(articuloId, articuloNombre, articuloDescripcion,  articuloCategoria, precio);
+        return false;
+    }
+
+    $(document).on('change', ':file', function() {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', [numFiles, label]);
+    });
+    $(document).ready( function() {
+        $(':file').on('fileselect', function(event, numFiles, label) {
+            var input = $(this).parents('.input-group').find(':text'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+            if( input.length ) {input.val(log);} else {if( log ) alert(log);}
+        });
+    });
+
+</script>
+@if (Model != null)
+{
+    if (Model.ErrorCode == 1)
+    {
+        <br />
+        <div class="alert alert-success" style="text-align: center">
+            <button type="button" class="close" data-dismiss="alert">×</button>@Model.ErrorDescription
+        </div>
+    }
+    else
+    {
+        <br />
+        <fieldset class="wrapper wrapper-content white-bg">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <script type="text/javascript">
+    ViewInRequestVariable.initializeInRequest();
+    @{
+                                <text>ViewInRequestVariable.setInRequest('@Model.Id',@Model.RequestNumber,'@Model.RequestDocumentNumber', '@Model.Notes','@Model.Comment', @Model.TypeInRequestValue,'@Model.StateRequest','@Model.CellarId', '@Model.PurchaseOrderNumber');</text>
+                                <text>ViewInRequestVariable.setAssetImagePath1('@Model.ImagePath1');</text>
+                                <text>ViewInRequestVariable.setAssetImagePath2('@Model.ImagePath2');</text>
+                            }
+                        </script>
+                        @Html.HiddenFor(model => model.Id, new { @id = "inRequestIdHidden" })
+                        @Html.HiddenFor(model => model.IsEdit, new { @id = "isEditHidden" })
+                        @Html.HiddenFor(model => model.StateRequest, new { @id = "stateRequestHidden" })
+                        @Html.HiddenFor(model => model.RequestNumber, new { @id = "noRequestHidden" })
+                        @Html.HiddenFor(model => model.CellarId, new { @id = "cellarIdHidden" })
+                        @Html.HiddenFor(model => model.TypeInRequestValue, new { @id = "typeInRequestHidden" })
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.RequestNumber, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.RequestNumber, new { @class = "form-control", @disabled = "disabled", @type = "text" })
+                                @Html.ValidationMessageFor(model => model.RequestNumber)
+
+                            </div>
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.PurchaseOrderNumber, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.PurchaseOrderNumber, new { @class = "form-control", @type = "text", @id = "purchaseOrderNumberTxt", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.PurchaseOrderNumber)
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.PersonInCharge, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.PersonInCharge, new { @class = "form-control", @id = "personInChargeText", @type = "text", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.PersonInCharge)
+                            </div>
+                            <div class="col-md-5">
+                                @Html.LabelFor(model => model.Cellars, new { @class = "control-label" })
+                                @{
+        SelectList cellars = new SelectList(Model.Cellars.ToArray(), "Id", "Name");
+        <div>@Html.DropDownListFor(m => m.CellarId, cellars, new { @id = "Cellars_DD", @class = "form-control" })</div>
+                                }
+                                @Html.ValidationMessageFor(model => model.CellarId)
+
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                        <div class="row" style="display: none">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-5">
+                                @*@Html.LabelFor(model => model.PersonInCharge, new { @class = "control-label" })
+                                @Html.TextBoxFor(model => model.PersonInCharge, new { @class = "form-control", @id = "personInChargeText", @type = "text", @required = "required" })
+                                @Html.ValidationMessageFor(model => model.PersonInCharge)*@
+                            </div>
+
+                            <div class="col-md-5" style="display: none">
+                                @Html.LabelFor(model => model.TypeInRequest, new { @class = "control-label" })
+                                @{
+        IList<SelectListItem> typeOutRequest = new List<SelectListItem>();
+        typeOutRequest.Add(new SelectListItem { Value = ((int)TypeInRequest.Asset).ToString(CultureInfo.InvariantCulture), Text = "Entrada por Activos", Selected = true });
+        typeOutRequest.Add(new SelectListItem { Value = ((int)TypeInRequest.LeftOver).ToString(CultureInfo.InvariantCulture), Text = "Entrada por Sobrante" });
+        if (Model.IsEdit)
+        {
+                    @Html.DropDownListFor(m => m.TypeInRequest, typeOutRequest, new { @id = "TypeInRequest_DD", @class = "form-control", @disabled = "disabled" })
+        }
+        else
+        {
+                    @Html.DropDownListFor(m => m.TypeInRequest, typeOutRequest, "Seleccione un tipo de Entrada", new { @id = "TypeInRequest_DD", @class = "form-control" })
+        }
+                    @Html.ValidationMessageFor(model => model.TypeInRequest)
+                                }
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-10">
+                                @Html.LabelFor(model => model.Notes, new {@class = "control-label"})
+                                @Html.TextAreaFor(model => model.Notes, new {@class = "form-control", @id = "notasAdicionalesTxt", @type = "text"})
+                                @Html.ValidationMessageFor(model => model.Notes)
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                            </div>
+                            <div class="col-md-10">
+                                @Html.LabelFor(model => model.Comment, new { @class = "control-label" })
+                                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control", @id = "commentsTxt", @type = "text" })
+                                @Html.ValidationMessageFor(model => model.Comment)
+                            </div>
+                            <div class="col-md-1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <br />
+                            <div class="col-md-1"></div>
+                            <div class="col-lg-4">
+                                @if (!string.IsNullOrEmpty(Model.ImagePath1))
+                                {
+                                    <img src="@Model.ImagePath1" alt="Imagen de Activo" class="img-thumbnail img-responsive center-block" style="max-height: 350px; max-height: 350px">
+                                }
+                                <br/>
+                                <div class="input-group">
+                                    <label class="input-group-btn input-group-sm">
+                                        <span class="btn btn-primary">
+                                            Agregar Imagen 1<input type="file" style="display: none;" multiple="" id="uploadEditorImage1">
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" readonly="">
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-lg-4">
+                                @if (!string.IsNullOrEmpty(Model.ImagePath2))
+                                {
+                                    <img src="@Model.ImagePath2" alt="Imagen de Activo" class="img-thumbnail img-responsive center-block" style="max-height: 350px; max-height: 350px">
+                                }
+                                <br />
+                                <div class="input-group">
+                                    <label class="input-group-btn input-group-sm">
+                                        <span class="btn btn-primary">
+                                            Agregar Imagen 2<input type="file" style="display: none;" multiple="" id="uploadEditorImage2">
+                                        </span>
+                                    </label>
+                                    <input type="text" class="form-control" readonly="">
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+                  @*      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <a id="btnFirmaDigital" class="btn btn-primary">Firmar Solicitud</a>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+                *@
+                        <br />
+                    </div>
+                    <div class="col-lg-12">
+                        <hr />
+                    </div>
+                    <div id="saveEditArticuloDetalle_panel" class="col-lg-12">
+                        <input type="hidden" id="isUpdateHidden" class="clearDetalle" />
+                        <input type="hidden" id="idAssetHidden" class="clearDetalle" />
+                        <input type="hidden" id="selectedIndexArticuloHidden" class="clearDetalle" />
+                        <input type="hidden" id="priceText" class="form-control detalleAddPanel clearDetalle"
+                               placeholder="Costo" min="1" required disabled />
+                        <div class="col-md-12">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+                                    <input type="text" id="assetNameText" class="form-control clearDetalle" placeholder="Activo">
+                                    <span class="input-group-btn">
+                                        <a class="btn btn-default" id="btnShowArticulosList" title="Buscar Activo"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                                    </span>
+                                </div><!-- /input-group -->
+                            </div>
+                            <div class="col-md-3">
+                                <input type="number" id="stockText" class="form-control detalleAddPanel clearDetalle"
+                                       placeholder="Cantidad" min="0" required disabled step="any"/>
+                            </div>
+                            <div class="col-md-3">
+                                <a id="guardarArticuloBtn" class="btn btn-xs btn-info detalleAddPanel" title="Guardar detalle de Activo a la Solicitud">
+                                    <span class="glyphicon glyphicon-share" aria-hidden="true"></span>&nbsp;Agregar al detalle
+                                </a>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <br/>
+                        <div id="detalleInventarioAlerts" style="text-align: center">
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <hr />
+                    </div>
+                    <div id="anyListDetailsEntity" class="col-lg-12">
+                        @{ Html.RenderPartial("_tableDetails", (IEnumerable<DetailAssetInRequestDto>)Model.DetailsRequest); }
+                    </div>
+
+                    @if (Model.ErrorCode == -1)
+                    {
+                        <br />
+                        <div class="alert alert-error" style="text-align: center">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            @Model.ErrorDescription
+                        </div>
+                    }
+                    <hr/>
+                    @if (!Model.IsEdit)
+                    {
+                        if (Model.Status == InRequestStatus.Active)
+                        {
+                        <div class="col-lg-offset-5">
+                            <input class="btn btn-primary" id="SaveRequestData" value="Guardar Solicitud" />
+                            <a class="btn btn-default" href="@Url.Action("Index", "InRequests")">Cancelar</a>
+                        </div>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.Status == InRequestStatus.Active)
+                        {
+                        <div class="col-lg-offset-5">
+                            <input class="btn btn-primary" id="SaveRequestDataEdit" value="Guardar Solicitud" />
+                            <a class="btn btn-default" href="@Url.Action("Index", "InRequests")">Cancelar</a>
+                        </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </fieldset>
+        <div id="signatureModal" class="modal fade" data-backdrop="static" style="background-color: white; overflow-x: auto">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <div class="modal-dialog" style="width: 95%; height: 95%">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p class="body" id="anyModalBodyCloseRequest">
+                            <b>Firma Digital:</b>
+                            <div id="signatureRequest"></div>
+                            <a class="btn btn-info btn-sm" id="resetSignature" title="Borrar Firma">Borrar Firma</a>
+                            <a class="btn btn-info btn-sm" id="acceptSignature" title="Aceptar Firma">Aceptar Firma</a>
+                        </p>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        @* <h4 class="modal-title">¡Alerta!</h4>*@
+                    </div>
+                    <div class="modal-body">
+                        <h2 style="text-align: center;">¡Solicitud Guardada Correctamente!</h2>
+                        <br />
+                        <h4 style="text-align: center;">Proceda a aceptarla para que se apliquen los movimientos.</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <a type="button" class="btn btn-primary" href="@Url.Action("Index","InRequests")">Continuar</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    }
+}

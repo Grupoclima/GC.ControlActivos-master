@@ -1,0 +1,72 @@
+﻿@using AdministracionActivosSobrantes.Assets
+@model AdministracionActivosSobrantes.ReportStocks.Dto.ReportStockInputDto
+<script>
+    $(document).ready(function () {
+        $('#TableListEntity').DataTable({
+            pagingType: "full_numbers",
+            searching: false,
+            dom: 'Bfrtip',
+            processing: true,
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+            //paging: true,
+            //searching: false,
+            //processing: true,
+            //pagingType: "full_numbers",
+            //lengthMenu: [[10, 20, 50, -1], [10, 20, 50, "All"]],
+            //buttons: ['copy', 'csv', 'excel', 'pdf', 'print']//, { extend: 'pdfHtml5', message: 'Reporte creado por ' + $('#userNameHidden').val() + ' en ' + $('#dateHidden').val() }
+        });
+    });
+</script>
+
+@if (Model != null && Model.StocksList != null && Model.StocksList.Any())
+{
+    @Html.HiddenFor(model => model.UserName, new { @id = "userNameHidden" })
+    @Html.HiddenFor(model => model.CurrentDateTime, new { @id = "dateHidden" })
+    <div class="wrapper wrapper-content white-bg text-center">
+            <table id="TableListEntity" class="table table-responsive dt-responsive">
+                <thead class="text-center">
+                <tr>
+                    <th style="text-align: center">
+                        Activo
+                    </th>
+                    <th style="text-align: center">
+                        Ubicación
+                    </th>
+                    <th style="text-align: center">
+                        En Existencias
+                    </th>
+                    <th style="text-align: center">
+                        En Solicitud
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.StocksList)
+                    {
+                        <tr>
+                            <td style="text-align: left">
+                                @item.NameAsset
+                            </td>
+                            <td style="text-align: left">
+                                @item.NameCellar
+                            </td>
+                            <td style="text-align: center">
+                                @item.GetStockItemsQty()
+                            </td>
+                            <td style="text-align: center">
+                                @item.AssetQtyOutputsBlocked
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-info alert-dismissible" role="alert" style="text-align: center;">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>¡No se han encontrado ninguna Existencia</strong>
+    </div>
+
+}

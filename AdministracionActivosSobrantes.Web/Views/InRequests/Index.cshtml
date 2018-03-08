@@ -1,0 +1,82 @@
+﻿@using Abp.Web.Mvc.Extensions
+@model AdministracionActivosSobrantes.InRequest.Dto.SearchInRequestInput
+@{
+    ViewBag.Title = "Entradas";
+}
+<script src="@Url.Content("~/Scripts/inRequestReady.js")" type="text/javascript"></script>
+<script type="text/javascript">
+
+    function SearchArticulos() {
+        ViewOutRequestVariable.searchArticulos();
+        return false;
+    }
+    function SaveArticuloData(articuloId, articuloNombre, articuloDescripcion, articuloCategoria, precio, disponibilidad) {
+        ViewOutRequestVariable.cargarDatosArticulo(articuloId, articuloNombre, articuloDescripcion, articuloCategoria, precio, disponibilidad);
+        return false;
+    }
+
+</script>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Entradas</h2>
+    </div>
+    <br />
+    @if (Model.User.Rol == AdministracionActivosSobrantes.Users.UserRoles.AuxiliarUca || Model.User.Rol == AdministracionActivosSobrantes.Users.UserRoles.SupervisorUca || Model.User.Rol == AdministracionActivosSobrantes.Users.UserRoles.SuperAdministrador)
+    {
+    <div><a class="btn btn-default" href="@Url.Action("Create", "InRequests")"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Crear Entrada</a></div>
+    }
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchInRequest", Model);}
+<br />
+<div id="anyPanelForm">
+    <div id="msgErrorAnyPanel">
+    </div>
+    <div id="anyPanelBody">
+    </div>
+</div>
+<div id="anyListEntity">
+    @{Html.RenderPartial("_inRequestListPartial", Model);}
+</div>
+
+<div class="modal fade" id="DeleteConfirmationMain_modal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación de borrado de la Solicitud.</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="ItemToDeleteMain_hidden" />
+                <h3 style="text-align: center;">¿Está seguro que desea borrar la Solicitud?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <a type="button" class="btn btn-primary" id="btnModalOkDeleteMainConfirmation">Continuar</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="PaseInventarioConfirmationMain_modal" tabindex="-1" role="dialog" style="padding-right: 17px;margin-top: 8%;margin-left: 7%;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmación de cambio en la Solicitud.</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="ItemToInventarioMain_hidden"/>
+                <h3>¿Está seguro que desea continuar?</h3>
+                <p>
+                    Si la solicitud es aplicada solo podrá ser reversada con movimientos manuales de ajuste.
+                 </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <a class="btn btn-primary" id="btnModalOkPaseInventarioConfirmation">Continuar</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

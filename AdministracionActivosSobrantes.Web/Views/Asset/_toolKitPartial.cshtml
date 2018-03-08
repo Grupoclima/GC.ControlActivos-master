@@ -1,0 +1,29 @@
+﻿@model IEnumerable<AdministracionActivosSobrantes.Assets.Dto.DetailAssetToolKitsDto>
+<label class="control-label">Seleccione los Activos</label>
+<div class="row">
+    <input type="hidden" id="assetIdHiddenToolKit" />
+    <input type="hidden" id="isUpdateHiddenToolKit" />
+    <input type="hidden" id="assetCodeHiddenToolKit" />
+    <div class="col-lg-6">
+        <div class="input-group">
+            <input type="text" id="nameTextToolKit" class="form-control clearToolKits" placeholder="Activo" required readonly="readonly">
+            <span class="input-group-btn">
+                <a class="btn btn-default" id="btnShowArticulosList" onclick="showAssetBtnlist($(this))" title="Buscar Activo"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+            </span>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <input type="number" id="quatityText" class="form-control toolKitsAddPanel clearToolKits" placeholder="Cantidad" min="0" required disabled step="any" />
+    </div>
+    <div class="col-lg-3">
+        <a id="guardarArticuloBtn" onclick="SaveAssetDataToolKit()" class="btn  btn-info toolKitsAddPanel" title="Guardar detalle de Activo a la Solicitud">
+            <span class="glyphicon glyphicon-share" aria-hidden="true"></span>&nbsp;Agregar al Set
+        </a>
+    </div>
+</div>
+<div id="renderTableToolKits">
+    @{
+        Html.RenderPartial("_tableToolKits", Model);
+    }
+</div>
+

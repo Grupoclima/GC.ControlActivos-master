@@ -1,0 +1,38 @@
+﻿@model AdministracionActivosSobrantes.ReportMovements.Dto.ReportMovementsInputDto
+@{ViewBag.Title = "Reporte de Movimientos";}
+<script src="@Url.Content("~/Scripts/reportMovements.js")" type="text/javascript"></script>
+<script>
+    function saveProjectData(projectId, name) {
+        //ViewOutRequestVariable.assetLoadData(articuloId, articuloNombre);
+        $('#ProjectIdHidden').val(projectId);
+        $('#projectName').val(name);
+        $('#anyModalForm').modal('hide');
+        return false;
+    }
+
+</script>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Reporte de Movimientos</h2>
+    </div>
+</div>
+<br />
+<div id="IndexAlerts" style="text-align: center">
+</div>
+@{Html.RenderPartial("_searchMovementsReportSearchPartial", Model);}
+<div id="anyListEntity">
+    @{Html.RenderPartial("_movementsReportListPartial", Model);}
+</div>
+<div id="anyModalForm" class="modal fade" style="background-color: white;width: 60%;margin-left: 22%;height: 92%;top: 4%; overflow-x: auto">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body ">
+                <p class="body" id="anyModalBody">
+                </p>
+            </div>
+            <div class="msgErrorAnyModal">
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

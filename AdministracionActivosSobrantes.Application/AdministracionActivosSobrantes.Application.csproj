@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EDF5D964-4C0F-4F19-B674-58A38A5E5401}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AdministracionActivosSobrantes</RootNamespace>
+    <AssemblyName>AdministracionActivosSobrantes.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Abp, Version=0.9.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.0.9.1.1\lib\net452\Abp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Abp.AutoMapper, Version=0.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Abp.AutoMapper.0.9.1.0\lib\net452\Abp.AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Facilities.Logging, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.LoggingFacility.3.3.0\lib\net45\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.TransientFaultHandling.Data.6.0.1304.1\lib\NET45\Microsoft.Practices.EnterpriseLibrary.TransientFaultHandling.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvcPaging, Version=2.1.7.35, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcPaging.2.1.7\lib\net40\MvcPaging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Concurrent, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Concurrent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nito.AsyncEx.Enlightenment, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.36.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.36\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdministracionActivosSobrantesApplicationModule.cs" />
+    <Compile Include="AdministracionActivosSobrantesAppServiceBase.cs" />
+    <Compile Include="Assets\AssetsAppService.cs" />
+    <Compile Include="Assets\Dto\DetailAssetToolKitsDto.cs" />
+    <Compile Include="Assets\Dto\GetAssetOutput.cs" />
+    <Compile Include="Assets\Dto\AssetDto.cs" />
+    <Compile Include="Assets\Dto\DetailAssetOutput.cs" />
+    <Compile Include="Assets\Dto\SearchAssetPartialInput.cs" />
+    <Compile Include="Assets\Dto\UpdateAssetInput.cs" />
+    <Compile Include="Assets\Dto\CreateAssetInput.cs" />
+    <Compile Include="Assets\Dto\SearchAssetsInput.cs" />
+    <Compile Include="Assets\IAssetsAppService.cs" />
+    <Compile Include="Categories\CategoryAppService.cs" />
+    <Compile Include="Categories\Dto\CategoryDto.cs" />
+    <Compile Include="Categories\Dto\CreateCategoryInput.cs" />
+    <Compile Include="Categories\Dto\DetailCategoryOutput.cs" />
+    <Compile Include="Categories\Dto\GetCategoryOutput.cs" />
+    <Compile Include="Categories\Dto\SearchCategoryInput.cs" />
+    <Compile Include="Categories\Dto\UpdateCategoryInput.cs" />
+    <Compile Include="Categories\ICategoryAppService.cs" />
+    <Compile Include="Cellars\CellarAppService.cs" />
+    <Compile Include="Cellars\Dto\DetailCellarOutput.cs" />
+    <Compile Include="Cellars\Dto\GetCellarOutput.cs" />
+    <Compile Include="Cellars\Dto\CellarDto.cs" />
+    <Compile Include="Cellars\Dto\OutRequestEntityDto.cs" />
+    <Compile Include="Cellars\Dto\UpdateCellarInput.cs" />
+    <Compile Include="Cellars\Dto\CreateCellarInput.cs" />
+    <Compile Include="Cellars\Dto\SearchCellarsInput.cs" />
+    <Compile Include="Cellars\ICellarAppService.cs" />
+    <Compile Include="Common\IDtoViewBaseFields.cs" />
+    <Compile Include="Contractors\ContractorAppService.cs" />
+    <Compile Include="Contractors\Dto\ContractorDto.cs" />
+    <Compile Include="Contractors\Dto\CreateContractorInput.cs" />
+    <Compile Include="Contractors\Dto\DetailContractorOutput.cs" />
+    <Compile Include="Contractors\Dto\GetContractorOutput.cs" />
+    <Compile Include="Contractors\Dto\SearchContractorInput.cs" />
+    <Compile Include="Contractors\Dto\UpdateContractorInput.cs" />
+    <Compile Include="Contractors\IContractorAppService.cs" />
+    <Compile Include="CustomFields\Dto\CustomFieldDto.cs" />
+    <Compile Include="InRequest\Dto\CreateInRequestInput.cs" />
+    <Compile Include="InRequest\Dto\DetailAssetInRequestDto.cs" />
+    <Compile Include="InRequest\Dto\DetailInRequestOutput.cs" />
+    <Compile Include="InRequest\Dto\GetInRequestOutput.cs" />
+    <Compile Include="InRequest\Dto\InRequestDto.cs" />
+    <Compile Include="InRequest\Dto\SearchInRequestInput.cs" />
+    <Compile Include="InRequest\Dto\UpdateInRequestInput.cs" />
+    <Compile Include="InRequest\IInRequestAppService.cs" />
+    <Compile Include="InRequest\InRequestAppService.cs" />
+    <Compile Include="Adjustments\Dto\CreateAdjustmentInput.cs" />
+    <Compile Include="Adjustments\Dto\DetailAssetAdjustmentDto.cs" />
+    <Compile Include="Adjustments\Dto\DetailAdjustmentOutput.cs" />
+    <Compile Include="Adjustments\Dto\GetAdjustmentOutput.cs" />
+    <Compile Include="Adjustments\Dto\AdjustmentDto.cs" />
+    <Compile Include="Adjustments\Dto\SearchAdjustmentInput.cs" />
+    <Compile Include="Adjustments\Dto\UpdateAdjustmentInput.cs" />
+    <Compile Include="Adjustments\IAdjustmentAppService.cs" />
+    <Compile Include="Adjustments\AdjustmentAppService.cs" />
+    <Compile Include="OutRequest\Dto\CloseOutRequestInput.cs" />
+    <Compile Include="OutRequest\Dto\CreateOutRequestInput.cs" />
+    <Compile Include="OutRequest\Dto\DetailAssetCloseRequest.cs" />
+    <Compile Include="OutRequest\Dto\DetailOutRequestOutput.cs" />
+    <Compile Include="OutRequest\OutRequestAppService.cs" />
+    <Compile Include="OutRequest\Dto\DetailAssetOutRequestDto.cs" />
+    <Compile Include="OutRequest\Dto\SearchOutRequestInput.cs" />
+    <Compile Include="OutRequest\Dto\OutRequestDto.cs" />
+    <Compile Include="OutRequest\IOutRequestAppService.cs" />
+    <Compile Include="Projects\ProjectAppService.cs" />
+    <Compile Include="Projects\Dto\ProjectDto.cs" />
+    <Compile Include="Projects\Dto\CreateProjectInput.cs" />
+    <Compile Include="Projects\Dto\DetailProjectOutput.cs" />
+    <Compile Include="Projects\Dto\GetProjectOutput.cs" />
+    <Compile Include="Projects\Dto\SearchProjectsInput.cs" />
+    <Compile Include="Projects\Dto\UpdateProjectInput.cs" />
+    <Compile Include="Projects\IProjectAppService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportMovements\Dto\ReportMovementsInputDto.cs" />
+    <Compile Include="ReportMovements\IReportMovementsAppService.cs" />
+    <Compile Include="ReportMovements\ReportMovementsAppService.cs" />
+    <Compile Include="ReportStocks\Dto\ReportStockInputDto.cs" />
+    <Compile Include="ReportStocks\IReportStocksAppService.cs" />
+    <Compile Include="ReportStocks\Dto\ReportStockDto.cs" />
+    <Compile Include="ReportStocks\ReportStocksAppService.cs" />
+    <Compile Include="ReportStocks\Dto\SearchStockOutput.cs" />
+    <Compile Include="Stocks\Dto\CreateStockInput.cs" />
+    <Compile Include="Stocks\Dto\SearchStockInput.cs" />
+    <Compile Include="Stocks\Dto\StockDto.cs" />
+    <Compile Include="Stocks\Dto\StocksMapReport.cs" />
+    <Compile Include="Stocks\StockAppService.cs" />
+    <Compile Include="Stocks\IStockAppService.cs" />
+    <Compile Include="Stocks\Dto\StockMap.cs" />
+    <Compile Include="Users\Dto\UserDto.cs" />
+    <Compile Include="Users\UserAppService.cs" />
+    <Compile Include="Users\IUserAppService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdministracionActivosSobrantes.Core\AdministracionActivosSobrantes.Core.csproj">
+      <Project>{17298ea0-af73-4f30-b6f1-2066100d7d74}</Project>
+      <Name>AdministracionActivosSobrantes.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GCMvcMailer\GCMvcMailer.csproj">
+      <Project>{834B3FB8-51B8-4EFC-8E03-44887321BDBA}</Project>
+      <Name>GCMvcMailer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

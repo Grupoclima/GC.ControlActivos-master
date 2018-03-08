@@ -1,0 +1,84 @@
+﻿@using System.Globalization
+@using AdministracionActivosSobrantes.Assets
+@using AdministracionActivosSobrantes.Projects
+@model AdministracionActivosSobrantes.Projects.Dto.CreateProjectInput
+@{
+    ViewBag.Title = "Crear Proyecto";
+}
+@using (Html.BeginForm("Create", "Project", FormMethod.Post, new { @class = "form-horizontal ", @id = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Crear Proyecto</h4>
+    </div>
+    if (Model != null)
+    {<div class="modal-body">
+        <fieldset>
+            <div class="well col-lg-10 col-lg-offset-1">
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.Code, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Code, new { @class = "form-control", @id = "CodeText", @Type = "text", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Code)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @id = "NameText", @Type = "text", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Name)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.Description, new { @class = "control-label" })
+                    @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @id = "DescriptionText", @Type = "text", @required = "required" })
+                    @Html.ValidationMessageFor(model => model.Description)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.StartDate, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control", @id = "StartDateText", @Type = "date" })
+                    @Html.ValidationMessageFor(model => model.StartDate)
+                </div>
+                <div class="input-group col-lg-10">
+                    @Html.LabelFor(model => model.FinalDate, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.FinalDate, new { @class = "form-control", @id = "FinishDateText", @Type = "date" })
+                    @Html.ValidationMessageFor(model => model.FinalDate)
+                </div>
+                <div class="input-group col-lg-10">
+                    @{
+        IList<SelectListItem> estadoProyecto = new List<SelectListItem>();
+        estadoProyecto.Add(new SelectListItem { Value = ((int)EstadoProyecto.Active).ToString(CultureInfo.InvariantCulture), Text = "Activo" });
+        estadoProyecto.Add(new SelectListItem { Value = ((int)EstadoProyecto.Fishished).ToString(CultureInfo.InvariantCulture), Text = "Finalizado" });
+        estadoProyecto.Add(new SelectListItem { Value = ((int)EstadoProyecto.Suspended).ToString(CultureInfo.InvariantCulture), Text = "Suspendido" });
+        @Html.LabelFor(model => model.EstadoProyecto, new { @class = "control-label" })
+                        <div class="controls">
+                            @Html.DropDownListFor(m => m.EstadoProyecto, estadoProyecto, new { @id = "AssetsTypes_DD", @class = "form-control" })
+                        </div>
+                    }
+
+                </div>
+
+                @if (Model.ErrorCode == 1)
+                {
+                    <hr />
+                    <div class="alert alert-success alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+                else if (Model.ErrorCode == -1)
+                {
+                    <hr />
+                    <div class="alert alert-danger alert-dismissible" role="alert" style="text-align: center">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong>@Model.ErrorDescription</strong>
+                    </div>
+                }
+            </div>
+        </fieldset>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+
+    }
+}

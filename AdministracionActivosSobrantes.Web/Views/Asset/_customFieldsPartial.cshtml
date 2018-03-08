@@ -1,0 +1,117 @@
+﻿
+@using AdministracionActivosSobrantes.CustomFields
+@model IList<AdministracionActivosSobrantes.CustomFields.Dto.CustomFieldDto>
+<script>
+    function EditCustomField(btn) {
+        ViewAssetVariable.btnEditCustomField(btn);
+    }
+
+    function DeleteCustomField(btn) {
+        ViewAssetVariable.removeAssetCustomField(btn);
+    }
+</script>
+
+@if (Model != null && Model.Any())
+{
+    <div class="wrapper wrapper-content white-bg">
+        <table id="TableCustomFields" class="table table-responsive" style="font-size: small">
+            <thead class="text-center">
+                <tr>
+                    <th style="text-align: center">
+                        Nombre
+                    </th>
+                    <th style="text-align: center">
+                        Tipo
+                    </th>
+                    <th style="text-align: center">
+                        Valor
+                    </th>
+                    <th style="text-align: center">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <script type="text/javascript">
+                    ViewAssetVariable.clearCustomFieldList();
+                </script>
+                @foreach (var item in Model)
+                {
+                    var cfType = (int)item.CustomFieldType;
+                    <script type="text/javascript">
+                        @switch (item.CustomFieldType)
+                        {
+                            case CustomFieldType.DateTime:
+                                <text>ViewAssetVariable.addCustomFieldToAsset('@item.Id','@item.AssetId', '@item.Name', '@item.Value', @cfType, @item.Saved, @item.Update, @item.Delete, @item.ErrorCode, '@item.ErrorDescription', @item.Index);</text>
+                                break;
+                            case CustomFieldType.Double:
+                                <text>ViewAssetVariable.addCustomFieldToAsset('@item.Id','@item.AssetId', '@item.Name', @item.Value, @cfType, @item.Saved, @item.Update, @item.Delete, @item.ErrorCode, '@item.ErrorDescription', @item.Index);</text>
+                                break;
+                            case CustomFieldType.Integer:
+                                <text>ViewAssetVariable.addCustomFieldToAsset('@item.Id','@item.AssetId', '@item.Name', @item.Value, @cfType, @item.Saved, @item.Update, @item.Delete, @item.ErrorCode, '@item.ErrorDescription', @item.Index);</text>
+                                break;
+                            case CustomFieldType.String:
+                                <text>ViewAssetVariable.addCustomFieldToAsset('@item.Id','@item.AssetId', '@item.Name', '@item.Value', @cfType, @item.Saved, @item.Update, @item.Delete, @item.ErrorCode, '@item.ErrorDescription', @item.Index);</text>
+                                break;
+                        }
+
+                    
+                    </script>
+                    if (item.Delete == 1)
+                    {
+                        continue;
+                    }
+                    <tr>
+                        <td style="text-align: center">
+                            @item.Name
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.CustomFieldType == CustomFieldType.DateTime)
+                            {
+                                <span class="label label-success">Fecha</span>
+                            }
+                            else if (item.CustomFieldType == CustomFieldType.Double)
+                            {
+                                <span class="label label-danger">Decimal</span>
+                            }
+                            else if (item.CustomFieldType == CustomFieldType.Integer)
+                            {
+                                <span class="label label-info">Entero</span>
+                            }
+                            else if (item.CustomFieldType == CustomFieldType.String)
+                            {
+                                <span class="label label-warning">Texto</span>
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            @if (item.CustomFieldType == CustomFieldType.DateTime)
+                            {
+                                @item.GetDateValue().Value.ToString("dd-MM-yyyy")
+                            }
+                            else if (item.CustomFieldType == CustomFieldType.Double)
+                            {
+                                @item.GetDoubleValue()
+                            }
+                            else if (item.CustomFieldType == CustomFieldType.Integer)
+                            {
+                                @item.GetIntValue()
+                            }
+                            else if (item.CustomFieldType == CustomFieldType.String)
+                            {
+                                @item.GetStringValue()
+                            }
+                        </td>
+                        <td style="text-align: center">
+                            <a class="btn btn-xs btn-default" onclick="EditCustomField($(this))" id="btnEditCustomField" data-idCustomField=@item.Index data-idAssetCustomField=@item.AssetId title="Editar Campo Customizado">
+                                <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            </a>
+                            <a class="btn btn-xs btn-danger" onclick="DeleteCustomField($(this))" id="btnDeleteCustomField" data-idCustomField =@item.Index data-idAssetCustomField=@item.AssetId title="Borrar Campo Customizado">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            </a>                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+

@@ -1,0 +1,100 @@
+﻿@model AdministracionActivosSobrantes.Assets.Dto.DetailAssetOutput
+@{
+    ViewBag.Title = "Detalle Activo";
+}
+<div class="">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3>Detalle de @Html.DisplayFor(model => model.Name)</h3>
+    </div>
+    <fieldset>
+        <br>
+        <div class="row">
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <p class="col-lg-10">
+                    <img src="@Model.ImagePath" alt="Imagen de Activo" class="img-thumbnail img-responsive center-block" style="max-height: 150px; max-height: 150px">
+                </p>
+            }
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Código Activo: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.Code)</p>
+            <p class="col-lg-2">
+                <strong>Nombre: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.Name)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Propietario: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.ResponsiblePersonStr)</p>
+            <p class="col-lg-2">
+                <strong>Codigo Barras: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.Barcode)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Costo Fiscal: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => Model.Price)</p>
+            <p class="col-lg-2">
+                <strong>Valor en libros: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => Model.CostinBooks)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Depresiacion Mensual:</strong>
+            </p>
+            <p class="col-lg-3">@Model.MensualDepreciation</p>
+            <p class="col-lg-2">
+                <strong>Marca:</strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.Brand)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+                <strong>Modelo:</strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.ModelStr)</p>
+            <p class="col-lg-2">
+                <strong>Fecha de Adquisicion: </strong>
+            </p>
+            <p class="col-lg-3">@Html.DisplayFor(model => model.AdmissionDate)</p>
+        </div>
+        <div class="row">
+            <p class="col-lg-2">
+          <strong>Ultima Salida del Activo:</strong>
+            </p>
+          @if (Model.UltOutRequest == null)
+            {
+              <p class="col-lg-3">Sin Salida registrada</p>
+            }
+             else
+            {
+              <p class="col-lg-3">@Html.DisplayFor(model => model.UltOutRequest)</p>
+            }
+
+            <p class="col-lg-2">
+           <strong>Fecha de la Ultima salida del Activo: </strong>
+            </p>
+            @if (Model.DateUltOutRequest == null)
+            {
+                <p class="col-lg-3">Sin Salida registrada</p>
+            }
+            else
+            {
+                <p class="col-lg-3">@Html.DisplayFor(model => model.DateUltOutRequest)</p>
+            }
+
+        </div>
+    </fieldset>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+    </div>
+</div>
