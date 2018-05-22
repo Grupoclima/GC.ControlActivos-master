@@ -195,39 +195,46 @@ namespace AdministracionActivosSobrantes.OutRequest
                 throw new UserFriendlyException("No se pudo encontrar la Ubicación, fue borrada o no existe.");
             }
             int index = 0;
-            foreach (var item in @entity)
+            try
             {
-                var stockListCellar = _outRequestManager.GetStocksList(company, outRequest.CellarId.Value, item.AssetId);
-                DetailAssetOutRequestDto detailItem = new DetailAssetOutRequestDto();
-                detailItem.Asset = item.Asset;
-                detailItem.NameAsset = item.NameAsset;
-                detailItem.OutRequestId = item.OutRequestId;
-                detailItem.StockAsset = item.StockAsset;
-                detailItem.AssetId = item.AssetId;
-                detailItem.AssetCode = item.Asset.Code;
-                detailItem.Price = item.Price.ToString();
-                detailItem.Index = index;
-                detailItem.Update = 1;
-                detailItem.Saved = 1;
-                detailItem.PreviousQty = item.StockAsset;
-                detailItem.Delete = 0;
-                detailItem.ErrorCode = 0;
-                detailItem.ErrorDescription = "";
-                detailItem.HistroryStatus = HistoryStatus.WithoutChanges;
-                detailItem.Status = item.Status;
-                detailItem.AssetAvailability = stockListCellar.Where(a => a.AssetId == item.AssetId && a.CompanyName == item.CompanyName).FirstOrDefault().GetStockItemsQty();
-                if (impresoSI == 1 && item.Status == Status.Delivered)
-                {   
-                    detailItem.Impress = Details.Impress.Impreso;
-                }
-                else
+                foreach (var item in @entity)
                 {
-                    detailItem.Impress = Details.Impress.Noimpreso;
+                    var stockListCellar = _outRequestManager.GetStocksList(company, outRequest.CellarId.Value, item.AssetId);
+                    DetailAssetOutRequestDto detailItem = new DetailAssetOutRequestDto();
+                    detailItem.Asset = item.Asset;
+                    detailItem.NameAsset = item.NameAsset;
+                    detailItem.OutRequestId = item.OutRequestId;
+                    detailItem.StockAsset = item.StockAsset;
+                    detailItem.AssetId = item.AssetId;
+                    detailItem.AssetCode = item.Asset.Code;
+                    detailItem.Price = item.Price.ToString();
+                    detailItem.Index = index;
+                    detailItem.Update = 1;
+                    detailItem.Saved = 1;
+                    detailItem.PreviousQty = item.StockAsset;
+                    detailItem.Delete = 0;
+                    detailItem.ErrorCode = 0;
+                    detailItem.ErrorDescription = "";
+                    detailItem.HistroryStatus = HistoryStatus.WithoutChanges;
+                    detailItem.Status = item.Status;
+                    detailItem.AssetAvailability = stockListCellar.Where(a => a.AssetId == item.AssetId && a.CompanyName == item.CompanyName).FirstOrDefault().GetStockItemsQty();
+                    if (impresoSI == 1 && item.Status == Status.Delivered)
+                    {
+                        detailItem.Impress = Details.Impress.Impreso;
+                    }
+                    else
+                    {
+                        detailItem.Impress = Details.Impress.Noimpreso;
+                    }
+                    detail.Add(detailItem);
+                    index++;
                 }
-                detail.Add(detailItem);
-                index++;
+                return detail;
             }
-            return detail;
+            catch(Exception e)
+            {
+                return detail;
+            }
         }
 
         public IList<DetailAssetCloseRequest> GetCloseRequestDetails(Guid outRequestId, Guid cellarId, string company)
@@ -439,7 +446,14 @@ namespace AdministracionActivosSobrantes.OutRequest
         public void DeliverRequest(CreateOutRequestInput input, IList<StockMap> list, string url)
         {
             var @entity = _outRequestRepository.Get(input.Id);
-            @entity.WareHouseManId = input.CreatorUserId;
+            if (@entity.WareHouseManId != null)
+            {
+                @entity.WareHouseManId = @entity.WareHouseManId;
+            }
+            else
+            {
+                @entity.WareHouseManId = input.CreatorUserId;
+            }
             @entity.DeliverDate = _dateTime.Now;
             @entity.Comment = input.Comment;
 

@@ -11,7 +11,6 @@
 
     <div class="col-md-6 pull-right">
         <br />
-        <p style="text-align: center"><strong>Clima Ideal S.A.</strong></p>
         <p style="font-size: small">
             <b>F-OPE-35 Registro de Entrada de Activos Fijos.</b><br />
             <b>Responsable: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jefatura de UCA</b><br />
@@ -26,6 +25,28 @@
 <table class="table table-condensed" style="font-size: small">
     <tbody>
         <tr>
+            <td colspan="4" style="text-align: left">
+                @if (Model.CompanyName.ToString() == "CLIMA1")
+                {
+                    <h4>Compañia: <span class="label label-primary">Clima Ideal S.A</span></h4>
+                }
+                @if (Model.CompanyName.ToString() == "TRANS1")
+                {
+                    <h4>Compañia: <span class="label label-primary"> Transclima S.A</span></h4>
+                }
+                @if (Model.CompanyName.ToString() == "CMI")
+                {
+                    <h4>Compañia: <span class="label label-primary">CMI-Consorcio de Montajes Industriales S.A</span></h4>
+                }
+                @if (Model.CompanyName.ToString() == "ISA1")
+                {
+                    <h4>Compañia: <span class="label label-primary">Integracion de Sistemas Automatizados S.A</span></h4>
+                }
+                @if (Model.CompanyName.ToString() == "CAPARROS")
+                {
+                    <h4>Compañia: <span class="label label-primary">Refrimundo S.A</span></h4>
+                }
+            </td>
             <td colspan="4" style="text-align: right">
                 @if (Model.Status == InRequestStatus.Active)
                 {

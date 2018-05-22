@@ -23,13 +23,10 @@
                         Fecha
                     </th>
                     <th style="text-align: center">
-                        No. Movimiento
+                        No. Solicitud
                     </th>
                     <th style="text-align: center">
                         Tipo
-                    </th>
-                    <th style="text-align: center">
-                        Categoría
                     </th>
                     <th style="text-align: center">
                         Ubicación
@@ -37,7 +34,7 @@
                     <th style="text-align: center">
                         Activo
                     </th>
-                    <th style="text-align: center">
+                    @*<th style="text-align: center">
                         Cantidad Anterior
                     </th>
                     <th style="text-align: center">
@@ -45,7 +42,7 @@
                     </th>
                     <th style="text-align: center">
                         Cantidad Nueva
-                    </th>
+                    </th>*@
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +50,7 @@
                 {
                     <tr>
                         <td style="text-align: center">
-                            @item.ApplicationDateTime.ToLongDateString()
+                            @item.ApplicationDateTime.ToShortDateString()
                         </td>
                         <td style="text-align: center">
                             @item.MovementNumber
@@ -68,7 +65,7 @@
                                 <b>Salida</b>
                             }
                         </td>
-                        <td style="text-align: center">
+                     @*   <td style="text-align: center">
                             @if (item.MovementCategory == MovementCategory.Adjustment)
                             {
                                 <b>Ajuste</b>
@@ -81,7 +78,7 @@
                             {
                                 <b>Solicitud Salida</b>
                             }
-                        </td>
+                        </td>*@
                         <td style="text-align: center">
                             @item.Cellar.Name
                         </td>
@@ -89,14 +86,26 @@
                             @item.Asset.Name
                         </td>
                         <td style="text-align: center">
-                            @item.PreviosCellarQty
+                            @if(item.TypeMovement == TypeMovement.Input)
+                            {
+                                 <b> UCA</b>
+                            }
+                            else 
+                            if (item.TypeMovement == TypeMovement.Output)
+                            {
+                                @item.OutRequest.Project.Code
+                            }
+
                         </td>
-                        <td style="text-align: center">
-                            @item.StockMovement
-                        </td>
-                        <td style="text-align: center">
-                            @item.GetNewCellarQty()
-                        </td>
+                    @*    <td style="text-align: center">
+        @item.PreviosCellarQty
+    </td>
+    <td style="text-align: center">
+        @item.StockMovement
+    </td>
+    <td style="text-align: center">
+        @item.GetNewCellarQty()
+    </td>*@
                     </tr>
                 }
             </tbody>

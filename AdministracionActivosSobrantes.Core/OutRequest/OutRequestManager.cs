@@ -283,7 +283,7 @@ namespace AdministracionActivosSobrantes.OutRequest
                 query = q.ToLower();
             var temp = (int)type;
             var temp1 = (AssetType)temp;
-            var outRequests = _stockRepository.GetAll().Where(a => a.CellarId == cellarId && a.Asset.AssetType == temp1 && a.CompanyName.Equals(company));
+            var outRequests = _stockRepository.GetAll().Where(a => a.CellarId == cellarId && a.Asset.AssetType == temp1 && a.CompanyName.Equals(company) && a.IsDeleted.Value==false);
             outRequests = outRequests.Where(a => a.IsDeleted == false && a.Asset.Name.ToLower().Contains(query) || a.Asset.Name.ToLower().Equals(query) || a.Asset.Code.ToLower().Contains(query) || a.Asset.Code.ToLower().Equals(query));
             return outRequests.Include(a => a.Asset).Include(a => a.Cellar).Include(a => a.Asset.Category).OrderByDescending(a => a.AssetQtyInputs-a.AssetQtyOutputs-a.AssetQtyOutputsBlocked > 0);
         }

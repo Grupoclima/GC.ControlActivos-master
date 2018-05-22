@@ -555,6 +555,7 @@
     <None Include="Properties\PublishProfiles\PrimerDeploy.pubxml" />
     <None Include="Properties\PublishProfiles\publicacion.pubxml" />
     <None Include="Properties\PublishProfiles\Publish UCA Produccion.pubxml" />
+    <None Include="Properties\PublishProfiles\SistemaCustodia.pubxml" />
     <None Include="Properties\PublishProfiles\Uca Publish Local PC.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\category.js" />

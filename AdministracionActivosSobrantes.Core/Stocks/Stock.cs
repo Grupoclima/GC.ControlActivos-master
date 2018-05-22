@@ -53,7 +53,7 @@ namespace AdministracionActivosSobrantes.Stocks
 
         public Guid CreatorUserId { get; set; }
 
-        protected Stock() { }
+        public Stock() { }
 
         public static Stock Create(Guid cellarId, Guid assetId,double qty,double price,
             Guid creatorUserId, DateTime creationTime, string companyName)

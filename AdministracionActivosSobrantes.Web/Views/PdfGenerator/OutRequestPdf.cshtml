@@ -6,6 +6,9 @@
     var currencyFmt = @System.Configuration.ConfigurationManager.AppSettings["CurrencyFormat"];
 }
 <div class=" ">
+    <div class="col-md-6 pull-right">
+        <a class="btn btn-xs btn-info" href="@Url.Action("Index", "OutRequests" )">Volver</a>
+    </div>
     <div class="col-md-4 pull-left">
         <img style="width: 100px; height: 100px" src='@Server.MapPath("~/Content/images/logo.png")' alt="Logo" />
     </div>
@@ -365,7 +368,7 @@
                 # Línea
             </th>
             <th style="text-align: center">
-                Placa
+                # Placa
             </th>
             <th style="text-align: center">
                 Nombre Activo
@@ -467,8 +470,4 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         Nombre
     </p>
-    <div>
-        <a class="btn btn-default" href="@Url.Action("Index", "OutRequests" )">Volver</a>
-    </div>
-
 </div>

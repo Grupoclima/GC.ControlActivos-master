@@ -41,7 +41,7 @@ namespace AdministracionActivosSobrantes.Stocks
 
         public IList<Stock> SearchStockInfo(Guid assetId,string company)
         {
-            var @entities = _stockRepository.GetAllList(a => a.AssetId == assetId && a.CompanyName.Equals(company));
+            var @entities = _stockRepository.GetAllList(a => a.AssetId == assetId && a.CompanyName.Equals(company) && a.IsDeleted.Value == false);
             return @entities;
         }
 
